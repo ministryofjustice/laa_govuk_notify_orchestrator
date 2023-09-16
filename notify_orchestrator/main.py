@@ -1,7 +1,8 @@
 from fastapi import FastAPI
-from fastapi.responses import RedirectResponse
-import logging
 from notify_orchestrator import config
+from notify_orchestrator.endpoints import router
+import logging
+
 
 app = FastAPI(
     title=config.TITLE,
@@ -11,6 +12,8 @@ app = FastAPI(
     license_info=config.LICENCE_INFO,
 )
 
+app.include_router(router)
+
 logger = logging.getLogger("uvicorn")
 
 
@@ -18,8 +21,3 @@ logger = logging.getLogger("uvicorn")
 async def startup_event():
     logger.info(f"Documentation can be found at the {app.docs_url} "
                 f"or {app.redoc_url} endpoints.")
-
-
-@app.get("/", response_class=RedirectResponse)
-def read_root():
-    return RedirectResponse(url='/redoc')
