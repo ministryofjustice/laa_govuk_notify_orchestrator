@@ -27,6 +27,7 @@ source env/bin/activate
 ##### 3.1) Ensure you are running the correct version of Python in your virtual environment
 ```
 python --version
+
 pip --version
 ```
 Ensure both state 'Python 3.11'
@@ -56,10 +57,13 @@ docker run -d --name govuk_notify_orchestrator -p 2500:2500 govuk_notify_orchest
 ```
 
 ## Documentation
-Swagger documentation can be found at the **/docs** endpoint
+Redocly documentation can be found at the root.
 
+Swagger documentation can be found at the **/docs** endpoint.
 
-## Installation
 
 ## Testing
-
+### Unit Testing is performed using pytest
+```
+pytest
+```
