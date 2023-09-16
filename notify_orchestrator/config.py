@@ -1,3 +1,9 @@
+# To change the host use the --host optional argument when you run start.py
+DEFAULT_HOST = "127.0.0.1"
+
+# To change the port use the --port optional argument when you run start.py
+DEFAULT_PORT = 2500
+
 TITLE = "LAA GOV.UK Notify Orchestrator"
 
 SUMMARY = "API used for Email orchestration between"\
@@ -17,9 +23,3 @@ LICENCE_INFO = {
     "name": "MIT License",
     "url": "https://github.com/ministryofjustice/.github/blob/main/LICENSE"
 }
-
-# To change the host use the --host optional argument when you run start.py
-DEFAULT_HOST = "127.0.0.1"
-
-# To change the port use the --port optional argument when you run start.py
-DEFAULT_PORT = "2500"
