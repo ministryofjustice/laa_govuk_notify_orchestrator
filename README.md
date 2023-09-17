@@ -46,7 +46,7 @@ python start.py
 
 ##### If you want the service to run on a port other than 2500 or a host other than 127.0.0.1
 ```
-python start.py --host your.hostname --port
+python manage.py --host your.hostname --port
 ```
 
 ## Running via Docker
