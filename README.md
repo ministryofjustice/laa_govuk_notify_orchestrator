@@ -7,17 +7,21 @@ This is the API used for Email orchestration between CLA services and GOV.UK Not
 ## Development in a virtual environment
 
 #### 1) Clone the repository
+
 ```
 git clone https://github.com/ministryofjustice/laa_govuk_notify_orchestrator.git
 ```
 
 #### 2) Ensure you have the correct Python3 version (3.11)
+
 ```
 python3 --version
 ```
+
 If this is below 3.11 please ensure you have installed python3.11 somewhere on your system.
 
 #### 3) Setup and activate a Python virtual environment
+
 ```
 python3.11 -m venv env --prompt=\(notify_api\)
 
@@ -25,14 +29,17 @@ source env/bin/activate
 ```
 
 ##### 3.1) Ensure you are running the correct version of Python in your virtual environment
+
 ```
 python --version
 
 pip --version
 ```
+
 Ensure both state 'Python 3.11'
 
 #### 4) Update pip and install the required Python dependancies
+
 ```
 pip install -U pip
 
@@ -40,30 +47,35 @@ pip install -r requirements.txt
 ```
 
 #### 5) Launch the service
+
 ```
 python start.py
 ```
 
 ##### If you want the service to run on a port other than 2500 or a host other than 127.0.0.1
+
 ```
 python manage.py --host your.hostname --port
 ```
 
 ## Running via Docker
+
 ```
-docker build -t govuk_notify_orchestrator .  
+docker build -t govuk_notify_orchestrator .
 
 docker run -d --name govuk_notify_orchestrator -p 2500:2500 govuk_notify_orchestrator
 ```
 
 ## Documentation
+
 Redocly documentation can be found at the root.
 
 Swagger documentation can be found at the **/docs** endpoint.
 
-
 ## Testing
+
 ### Unit Testing is performed using pytest
+
 ```
 pytest
 ```
