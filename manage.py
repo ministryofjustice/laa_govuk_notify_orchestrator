@@ -2,7 +2,7 @@
 import uvicorn
 import logging
 import argparse
-from app.config import DEFAULT_HOST, DEFAULT_PORT
+from config import Config
 
 logger = logging.getLogger("uvicorn")
 
@@ -13,11 +13,11 @@ parser.add_argument("command", choices=["", "runserver", "test", "tests"], nargs
 
 parser.add_argument('--host', type=str,
                     help=f"(Optional) Sets which host to run the API on, "
-                         f"defaults to {DEFAULT_HOST}")
+                         f"defaults to {Config.HOST}")
 
 parser.add_argument('--port', type=int,
                     help=f"(Optional) Sets which port to run the API on, "
-                         f"defaults to {DEFAULT_PORT}.")
+                         f"defaults to {Config.PORT}.")
 
 parser.add_argument('--log-level', type=int,
                     help="(Optional) Sets which log level to display, "
@@ -26,8 +26,8 @@ parser.add_argument('--log-level', type=int,
 
 def get_uvicorn_config(host=None, port=None, log_level=None):
     config = uvicorn.Config("app:notify_orchestrator_api")
-    config.host = DEFAULT_HOST if host is None else host
-    config.port = DEFAULT_PORT if port is None else port
+    config.host = Config.HOST if host is None else host
+    config.port = Config.PORT if port is None else port
     config.log_level = 'debug' if log_level is None else log_level
     return config
 

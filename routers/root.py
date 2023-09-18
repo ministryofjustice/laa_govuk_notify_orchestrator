@@ -1,7 +1,5 @@
-from fastapi import APIRouter
+from routers import router
 from fastapi.responses import RedirectResponse
-
-router = APIRouter()
 
 
 @router.get("/", response_class=RedirectResponse)
