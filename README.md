@@ -52,10 +52,10 @@ pip install -r requirements.txt
 python manage.py
 ```
 
-##### If you want the service to run on a port other than 2500 or a host other than 127.0.0.1
+##### If you want the service to run on a port other than 8027 or a host other than 127.0.0.1
 
 ```
-python manage.py --host your.hostname --port
+python manage.py --host 127.0.0.1 --port 8026
 ```
 
 ## Running via Docker
@@ -63,7 +63,7 @@ python manage.py --host your.hostname --port
 ```
 docker build -t govuk_notify_orchestrator .
 
-docker run -d --name govuk_notify_orchestrator -p 2500:2500 govuk_notify_orchestrator
+docker run -d --name govuk_notify_orchestrator -p 8026:8026 govuk_notify_orchestrator
 ```
 
 ## Documentation
