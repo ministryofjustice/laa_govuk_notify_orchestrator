@@ -52,7 +52,7 @@ pip install -r requirements.txt
 python manage.py
 ```
 
-##### If you want the service to run on a port other than 8027 or a host other than 127.0.0.1
+##### If you want the service to run on a port other than 8026 or a host other than 127.0.0.1
 
 ```
 python manage.py --host 127.0.0.1 --port 8026
