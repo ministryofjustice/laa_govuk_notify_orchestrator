@@ -1,11 +1,19 @@
 FROM python:3.11
 
-WORKDIR /code
+WORKDIR /notify_orchestrator
 
-COPY ./requirements.txt /code/requirements.txt
+COPY ./requirements.txt /notify_orchestrator/requirements.txt
 
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r /notify_orchestrator/requirements.txt
 
-COPY ./notify_orchestrator /code/notify_orchestrator
+COPY ./app /notify_orchestrator/app
 
-CMD ["uvicorn", "notify_orchestrator.main:app", "--host", "0.0.0.0", "--port", "2500"]
+COPY ./tests /notify_orchestrator/tests
+
+COPY ./config /notify_orchestrator/config
+
+COPY ./routers /notify_orchestrator/routers
+
+COPY ./models /notify_orchestrator/models
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "2500"]
