@@ -22,11 +22,19 @@ class TestEmail:
 
         res = test_client.post("/email", json=TestData.invalid_email_request)
 
+        json_response = res.json()["detail"][0]
+
+        assert json_response["msg"] == "value is not a valid email address: The email address is not valid. It must have exactly one @-sign."
+
         assert res.status_code == 422, \
             ErrorMessages.invalid_status_code(422, res.status_code)
       
     def test_blank_email(self):
         res = test_client.post("/email", json=TestData.invalid_email_request)
+
+        json_response = res.json()["detail"][0]
+
+        assert json_response["msg"] == "value is not a valid email address: The email address is not valid. It must have exactly one @-sign."
 
         assert res.status_code == 422, \
             ErrorMessages.invalid_status_code(422, res.status_code)
