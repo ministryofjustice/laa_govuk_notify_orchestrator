@@ -1,17 +1,5 @@
-from fastapi import FastAPI
-from config import Config
-from routers import router
 import logging
+from app.main import app
 
-
-app = FastAPI(
-    title=Config.TITLE,
-    summary=Config.SUMMARY,
-    version=Config.VERSION,
-    terms_of_service=Config.TERMS_OF_SERVICE,
-    license_info=Config.LICENCE_INFO,
-)
-
-app.include_router(router)
-
+notify_orchestrator_api = app
 logger = logging.getLogger("uvicorn")

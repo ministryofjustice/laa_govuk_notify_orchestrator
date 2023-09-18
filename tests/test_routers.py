@@ -1,5 +1,5 @@
 from fastapi.testclient import TestClient
-from app import notify_orchestrator_api as app
+from app import app
 from tests.utils.error_messages import ErrorMessages
 
 TEST_SERVER_URL = "http://testserver"
