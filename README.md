@@ -38,7 +38,7 @@ pip --version
 
 Ensure both state 'Python 3.11'
 
-#### 4) Update pip and install the required Python dependancies
+#### 4) Update pip and install the required Python dependencies
 
 ```
 pip install -U pip
