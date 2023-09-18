@@ -1,5 +1,5 @@
-import os
+from config.base_config import BaseConfig
 
 
-class ProductionConfig:
-    SECRET_KEY = os.eniron.get("SECRET_KEY", "None")
+class ProductionConfig(BaseConfig):
+    pass

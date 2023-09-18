@@ -1,5 +1,5 @@
-import os
+from config.base_config import BaseConfig
 
 
-class StagingConfig:
-    SECRET_KEY = os.eniron.get("SECRET_KEY", None)
+class StagingConfig(BaseConfig):
+    TITLE = "LAA GOV.UK Notify Orchestrator [Staging]"
