@@ -41,7 +41,7 @@ pip install -r requirements.txt
 
 #### 5) Launch the service
 ```
-python start.py
+python manage.py
 ```
 
 ##### If you want the service to run on a port other than 2500 or a host other than 127.0.0.1
