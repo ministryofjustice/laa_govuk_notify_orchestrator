@@ -1,3 +1,5 @@
-from fastapi import APIRouter
+from routers.root import root_router
 
-router = APIRouter()
+routers = [
+    root_router
+]
