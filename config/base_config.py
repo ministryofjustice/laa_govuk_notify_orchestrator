@@ -2,7 +2,7 @@ class BaseConfig:
     # To change the host and port without altering the config files
     # use the --host & --port optional arguments when you run manage.py
     HOST = "127.0.0.1"
-    PORT = 2500
+    PORT = 8026
 
     TITLE = "LAA GOV.UK Notify Orchestrator"
 
