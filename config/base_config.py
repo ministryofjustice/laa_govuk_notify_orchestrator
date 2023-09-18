@@ -6,7 +6,7 @@ class BaseConfig:
 
     TITLE = "LAA GOV.UK Notify Orchestrator"
 
-    SUMMARY = "API used for Email orchestration between"\
+    SUMMARY = "API used for Email orchestration between "\
               "CLA services and GOV.UK Notify."
 
     VERSION = "0.0.1"
