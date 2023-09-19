@@ -18,7 +18,7 @@ async def send_email(email_request: Email, background_tasks: BackgroundTasks):
 
         Parameters:
             email_request (Email): An email object from the /email endpoint.
-                                   Please see models/reqest_models/email for the definition
+                                   Please see models/request_models/email for the definition
     """
     background_tasks.add_task(add_email_to_queue, email_request)
     return
