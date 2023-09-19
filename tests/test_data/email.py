@@ -47,6 +47,11 @@ class TestData:
         "personalisation": {}
     }
 
+    non_existant_personalisation = {
+        "email_address": "test@example.com",
+        "template_id": "12345",
+    }
+
     invalid_payload = {
         "incorrect_name": "test@example.com",
         "template_id": "12345",

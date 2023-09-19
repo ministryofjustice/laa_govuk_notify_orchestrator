@@ -93,6 +93,12 @@ class TestPersonalisation:
         assert res.status_code == 201, \
             ErrorMessages.invalid_status_code(201, res.status_code)
 
+    def test_non_existant_personalisation(self):
+        res = test_client.post("/email", json=TestData.non_existant_personalisation)
+
+        assert res.status_code == 201, \
+            ErrorMessages.invalid_status_code(201, res.status_code)
+
 
 class TestPayload:
     endpoint = "/email"
