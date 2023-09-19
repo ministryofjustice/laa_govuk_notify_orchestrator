@@ -11,7 +11,7 @@ email_router = APIRouter()
 @email_router.post("/email", summary=EmailRouter.summary, description=EmailRouter.description, status_code=201)
 async def send_email(email_request: Email, background_tasks: BackgroundTasks):
     """
-    API Endpoint for /email.
+    API Endpoint for email route.
     Recieves an email object and loads it onto the FIFO Queue.
     A 422 response is sent if the email_request object is found to be invalid by pydantic
     A 201 response is sent if the email_request object is valid
