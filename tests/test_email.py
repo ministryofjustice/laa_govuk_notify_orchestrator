@@ -1,7 +1,7 @@
 from fastapi.testclient import TestClient
 from app import app
 from tests.utils.error_messages import ErrorMessages
-from tests.test_data import TestData
+from tests.test_data.email import TestData
 
 TEST_SERVER_URL = "http://testserver"
 
@@ -20,7 +20,7 @@ class TestEmail:
 
     def test_invalid_email(self):
 
-        res = test_client.post("/email", json=TestData.invalid_email_request)
+        res = test_client.post("/email", json=TestData.invalid_email_address)
 
         json_response = res.json()["detail"][0]
 
@@ -28,13 +28,23 @@ class TestEmail:
 
         assert res.status_code == 422, \
             ErrorMessages.invalid_status_code(422, res.status_code)
-      
+
     def test_blank_email(self):
-        res = test_client.post("/email", json=TestData.invalid_email_request)
+        res = test_client.post("/email", json=TestData.blank_email_address)
 
         json_response = res.json()["detail"][0]
 
         assert json_response["msg"] == "value is not a valid email address: The email address is not valid. It must have exactly one @-sign."
+
+        assert res.status_code == 422, \
+            ErrorMessages.invalid_status_code(422, res.status_code)
+
+    def test_no_email(self):
+        res = test_client.post("/email", json=TestData.no_email_address)
+
+        json_response = res.json()["detail"][0]
+
+        assert json_response["msg"] == "Input should be a valid string"
 
         assert res.status_code == 422, \
             ErrorMessages.invalid_status_code(422, res.status_code)
@@ -82,3 +92,57 @@ class TestPersonalisation:
 
         assert res.status_code == 201, \
             ErrorMessages.invalid_status_code(201, res.status_code)
+
+
+class TestPayload:
+    endpoint = "/email"
+
+    def test_invalid_payload(self):
+        res = test_client.post("/email", json=TestData.invalid_payload)
+
+        json_response = res.json()['detail'][0]
+
+        assert json_response["msg"] == "Field required"
+
+        assert json_response["loc"][1] == "email_address"
+
+        assert res.status_code == 422, \
+            ErrorMessages.invalid_status_code(422, res.status_code)
+
+    def test_empty_payload(self):
+        res = test_client.post("/email", json=TestData.empty_payload)
+
+        json_response = res.json()['detail'][0]
+
+        assert json_response["msg"] == "Field required"
+
+        assert json_response["loc"][1] == "email_address"
+
+        assert res.status_code == 422, \
+            ErrorMessages.invalid_status_code(422, res.status_code)
+
+    def test_no_payload(self):
+        res = test_client.post("/email", json=TestData.no_payload)
+
+        json_response = res.json()['detail'][0]
+
+        assert json_response["msg"] == "Field required"
+
+        assert json_response["loc"][1] == "email_address"
+
+        assert res.status_code == 422, \
+            ErrorMessages.invalid_status_code(422, res.status_code)
+
+
+class TestInvalidMethod():
+    def test_get(self):
+        res = test_client.get("/email")
+
+        assert res.status_code == 405, \
+            ErrorMessages.invalid_status_code(405, res.status_code)
+
+    def test_put(self):
+        res = test_client.put("/email", json=TestData.valid_email_request)
+
+        assert res.status_code == 405, \
+            ErrorMessages.invalid_status_code(405, res.status_code)
