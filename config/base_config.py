@@ -6,13 +6,11 @@ class BaseConfig:
 
     TITLE = "LAA GOV.UK Notify Orchestrator"
 
-    SUMMARY = "API used for Email orchestration between "\
-              "CLA services and GOV.UK Notify."
+    SUMMARY = "API used for Email orchestration between CLA services and GOV.UK Notify."
 
     VERSION = "0.0.1"
 
-    TERMS_OF_SERVICE = "https://github.com/ministryofjustice/"\
-                       ".github/blob/main/CODE_OF_CONDUCT.md"
+    TERMS_OF_SERVICE = "https://github.com/ministryofjustice/.github/blob/main/CODE_OF_CONDUCT.md"
 
     CONTACT_INFO = {
         "name": "Legal Aid Agency",
