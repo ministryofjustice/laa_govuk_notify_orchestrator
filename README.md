@@ -58,6 +58,7 @@ python manage.py
 python manage.py --host 127.0.0.1 --port 8026
 ```
 
+## Running via Docker
 
 #### Running the service locally with RabbitMQ via Docker
 
