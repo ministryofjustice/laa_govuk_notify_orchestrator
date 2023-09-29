@@ -2,17 +2,15 @@ class BaseConfig:
     # To change the host and port without altering the config files
     # use the --host & --port optional arguments when you run manage.py
     HOST = "127.0.0.1"
-    PORT = 2500
+    PORT = 8026
 
     TITLE = "LAA GOV.UK Notify Orchestrator"
 
-    SUMMARY = "API used for Email orchestration between"\
-              "CLA services and GOV.UK Notify."
+    SUMMARY = "API used for Email orchestration between CLA services and GOV.UK Notify."
 
     VERSION = "0.0.1"
 
-    TERMS_OF_SERVICE = "https://github.com/ministryofjustice/"\
-                       ".github/blob/main/CODE_OF_CONDUCT.md"
+    TERMS_OF_SERVICE = "https://github.com/ministryofjustice/.github/blob/main/CODE_OF_CONDUCT.md"
 
     CONTACT_INFO = {
         "name": "Legal Aid Agency",
