@@ -46,7 +46,7 @@ pip install -U pip
 pip install -r requirements.txt
 ```
 
-#### 5) Launch the service
+#### 5) Launch the service locally without a message queue
 
 ```
 python manage.py
@@ -58,12 +58,18 @@ python manage.py
 python manage.py --host 127.0.0.1 --port 8026
 ```
 
-## Running via Docker
+
+#### Running the service locally with RabbitMQ via Docker
 
 ```
-docker build -t govuk_notify_orchestrator .
+./run_local.sh
+```
 
-docker run -d --name govuk_notify_orchestrator -p 8026:8026 govuk_notify_orchestrator
+#### Running the service without RabbitMQ via Docker
+
+```
+docker-compose down --remove-orphans
+docker-compose up
 ```
 
 ## Documentation

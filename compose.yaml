@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  api:
+    container_name: govuk_notify_orchestrator
+    build: .
+    ports:
+      - "8026:8026"
+    restart: "no"
+    depends_on:
+      rabbitmq:
+        condition: "service_healthy"
+        required: false
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3-management-alpine
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    volumes:
+      - ./config/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "5672" ]
+      interval: 5s
+      timeout: 10s
+      retries: 3
+    profiles:
+      - development
