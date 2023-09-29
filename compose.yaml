@@ -1,0 +1,8 @@
+
+services:
+  api:
+    container_name: govuk_notify_orchestrator
+    build: .
+    ports:
+      - "8026:8000"
+    restart: "no"
