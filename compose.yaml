@@ -16,8 +16,8 @@ services:
     container_name: rabbitmq
     image: rabbitmq:3-management-alpine
     ports:
-      - '5672:5672'
-      - '15672:15672'
+      - '5672:5672'   # Advanced Message Queuing Protocol
+      - '15672:15672' # Port for the management API
     volumes:
       - ./config/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
     healthcheck:
@@ -26,4 +26,5 @@ services:
       timeout: 10s
       retries: 3
     profiles:
+    # RabbitMQ will not run unless COMPOSE_PROFILES is set to 'development'
       - development
