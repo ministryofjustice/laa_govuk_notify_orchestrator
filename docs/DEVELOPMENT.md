@@ -1,6 +1,6 @@
 # Development Guide
 
-## How to start a local version of the API (with no message queue) 
+## How to start a local version of the API (with no message queue)
 
 ```
 python manage.py
