@@ -1,9 +1,14 @@
-## Running via Docker
+## How to start a docker version of the API (With RabbitMQ)
 
 ```
-docker build -t govuk_notify_orchestrator .
+./run_local.sh
+```
 
-docker run -d --name govuk_notify_orchestrator -p 8026:8026 govuk_notify_orchestrator
+## How to start a docker version of the API (Without RabbitMQ)
+
+```
+docker-compose down --remove-orphans
+docker-compose up
 ```
 
 ## Running unit testing in the docker container
