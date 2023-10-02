@@ -1,4 +1,10 @@
-FROM python:3.11
+FROM python:3.11.5-alpine3.18
+
+RUN apk add tzdata \ 
+            bash
+
+RUN adduser -D app && \
+    cp /usr/share/zoneinfo/Europe/London /etc/localtime
 
 WORKDIR /notify_orchestrator
 
@@ -8,6 +14,8 @@ RUN pip install --no-cache-dir --upgrade -r /notify_orchestrator/requirements.tx
 
 COPY ./app /notify_orchestrator/app
 
+COPY ./bin /notify_orchestrator/bin
+
 COPY ./tests /notify_orchestrator/tests
 
 COPY ./config /notify_orchestrator/config
@@ -15,5 +23,7 @@ COPY ./config /notify_orchestrator/config
 COPY ./routers /notify_orchestrator/routers
 
 COPY ./models /notify_orchestrator/models
+
+USER 1000
 
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8026"]

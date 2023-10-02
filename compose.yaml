@@ -1,7 +1,7 @@
 version: "3.9"
 
 services:
-  api:
+  api: &notify_orchestrator
     container_name: govuk_notify_orchestrator
     build: .
     ports:
@@ -28,3 +28,16 @@ services:
     profiles:
       # RabbitMQ will not run unless COMPOSE_PROFILES is set to 'development'
       - development
+
+  celery_worker:
+    <<: *notify_orchestrator
+    container_name: celery_worker
+    command:
+      - "bin/run_worker.sh"
+    ports: []
+    environment:
+      - CELERY_BROKER_URL=${CELERY_BROKER_URL:-'amqp://guest:guest@rabbitmq:5672/'}
+    depends_on:
+      rabbitmq:
+        condition: "service_healthy"
+        required: false
