@@ -5,6 +5,7 @@ venv/
 env/
 .DS_STORE
 .vscode
+.idea/
 *.code-workspace
 *.sha256
 terraform.tfstate

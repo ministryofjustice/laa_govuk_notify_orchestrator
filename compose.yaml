@@ -36,7 +36,7 @@ services:
       - "bin/run_worker.sh"
     ports: []
     environment:
-      - CELERY_BROKER_URL=${CELERY_BROKER_URL:-'amqp://guest:guest@rabbitmq:5672/'}
+      - CELERY_BROKER_URL=${CELERY_BROKER_URL:-amqp://guest:guest@rabbitmq:5672/}
     depends_on:
       rabbitmq:
         condition: "service_healthy"

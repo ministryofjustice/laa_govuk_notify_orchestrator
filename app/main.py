@@ -2,9 +2,7 @@ from fastapi import FastAPI
 from config import Config
 from routers import routers
 from app.celery import create_celery
-import logging
-
-logger = logging.getLogger("uvicorn")
+from app.lifespan import lifespan
 
 
 def create_app():
@@ -14,6 +12,7 @@ def create_app():
         version=Config.VERSION,
         terms_of_service=Config.TERMS_OF_SERVICE,
         license_info=Config.LICENCE_INFO,
+        lifespan=lifespan
     )
 
     app.celery_app = create_celery()
