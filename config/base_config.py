@@ -1,3 +1,8 @@
+import os
+from kombu import Queue
+from utils.celery import route_task
+
+
 class BaseConfig:
     # To change the host and port without altering the config files
     # use the --host & --port optional arguments when you run manage.py
@@ -22,3 +27,9 @@ class BaseConfig:
         "name": "MIT License",
         "url": "https://github.com/ministryofjustice/.github/blob/main/LICENSE"
     }
+
+    CELERY_BROKER_URL: str = os.environ.get("CELERY_BROKER_URL", "amqp://guest:guest@localhost:5672//")
+
+    CELERY_TASK_QUEUES = [Queue("email_queue")]
+
+    CELERY_TASK_ROUTES = (route_task)

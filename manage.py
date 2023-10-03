@@ -25,7 +25,7 @@ parser.add_argument('--log-level', type=int,
 
 
 def get_uvicorn_config(host=None, port=None, log_level=None):
-    config = uvicorn.Config("app.main:app")
+    config = uvicorn.Config("app.__init__:notify_orchestrator_api")
     config.host = Config.HOST if host is None else host
     config.port = Config.PORT if port is None else port
     config.log_level = 'debug' if log_level is None else log_level

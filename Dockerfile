@@ -24,6 +24,8 @@ COPY ./routers /notify_orchestrator/routers
 
 COPY ./models /notify_orchestrator/models
 
+COPY ./utils /notify_orchestrator/utils
+
 USER 1000
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8026"]
+CMD ["uvicorn", "app.__init__:notify_orchestrator_api", "--host", "0.0.0.0", "--port", "8026"]
