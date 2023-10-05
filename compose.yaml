@@ -7,6 +7,8 @@ services:
     ports:
       - "8026:8026"
     restart: "no"
+    volumes:
+      - ".:/notify_orchestrator"
     depends_on:
       rabbitmq:
         condition: "service_healthy"

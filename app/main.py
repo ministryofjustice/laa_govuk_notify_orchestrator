@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from config import Config
 from routers import routers
-from app.celery import create_celery
+from app.celery_app import create_celery
 from app.lifespan import lifespan
 
 
