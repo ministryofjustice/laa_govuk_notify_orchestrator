@@ -1,4 +1,8 @@
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 class BaseConfig:
     # To change the host and port without altering the config files
@@ -25,4 +29,19 @@ class BaseConfig:
         "url": "https://github.com/ministryofjustice/.github/blob/main/LICENSE"
     }
 
-    CELERY_BROKER_URL = os.environ.get("CELERY_BROKER_URL", "amqp://guest:guest@rabbitmq:5672//")
+    TESTING_MODE = True if os.environ.get('TESTING_MODE') == 'True' else False
+
+    try:
+        QUEUE_NAME = os.environ['QUEUE_NAME']
+    except KeyError:
+        raise KeyError("QUEUE_NAME is a required environment variable")
+
+    try:
+        QUEUE_URL = os.environ['QUEUE_URL']
+    except KeyError:
+        raise KeyError("QUEUE_URL is a required environment variable")
+
+    try:
+        CELERY_BROKER_URL = os.environ['CELERY_BROKER_URL']
+    except KeyError:
+        raise KeyError("CELERY_BROKER_URL is a required environment variable")

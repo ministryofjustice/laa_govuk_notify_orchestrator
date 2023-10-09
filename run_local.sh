@@ -3,7 +3,7 @@ export ENVIRONMENT=${1:-development}
 
 # COMPOSE_PROFILES is used to set the docker compose profile
 # If this is set to development then RabbitMQ will launch with the API
-export COMPOSE_PROFILES=$ENVIRONMENT
+export COMPOSE_PROFILES=RabbitMQ
 
 echo "running environment $ENVIRONMENT"
 

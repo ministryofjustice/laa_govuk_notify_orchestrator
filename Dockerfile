@@ -1,6 +1,15 @@
 FROM python:3.11.5-alpine3.18
 
+ENV CURL_VERSION=7.86.0
+ENV PYCURL_SSL_LIBRARY=openssl
+ENV SSL_VERSION=3.0.7
+
+RUN apk add --no-cache --virtual .build-dependencies build-base curl-dev \
+    && pip install pycurl \
+    && apk del .build-dependencies
+
 RUN apk add tzdata \ 
+            libcurl \
             bash
 
 RUN adduser -D app && \
