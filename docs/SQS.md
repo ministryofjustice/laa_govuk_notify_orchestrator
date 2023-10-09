@@ -40,6 +40,21 @@ As we want Celery to be using the SQS Protocol we need to append the following l
 CELERY_BROKER_URL='sqs://'
 ```
 
+### Set the Queue Name and URL
+To find the SQS Queue URL you will need to login to AWS, you can find how to do this [here](https://user-guide.cloud-platform.service.justice.gov.uk/documentation/getting-started/accessing-the-cloud-console.html).
+
+Once you have logged in make sure your region is set to the region you got from your Kubernetes pod. Ours is 'London' (eu-west-2).
+
+Click 'Simple Queueing Serivce' in the top-left, or search for it if it isn't there.
+
+Find the queue you are looking for by searching for your queue name, in our case `laa-get-access-development-laa_govuk_notify_orchestrator_development_queue.fifo`
+
+Click this and create two envrionment variables in your `.env` file:
+```
+QUEUE_NAME=[Queue Name from the AWS Console]
+QUEUE_URL=[Queue URL from the AWS Console]
+```
+
 ### Make sure RabbitMQ doesn't start
 To ensure RabbitMQ doesn't start when we run `docker_compose` lets append the following line to our `.env` file
 ```
