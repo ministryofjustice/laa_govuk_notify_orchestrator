@@ -30,7 +30,7 @@ class BaseConfig:
     }
 
     TESTING_MODE = os.environ.get('TESTING_MODE') == 'True'
-    
+
     try:
         QUEUE_NAME = os.environ['QUEUE_NAME']
     except KeyError:
