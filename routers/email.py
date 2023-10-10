@@ -30,7 +30,7 @@ async def send_email(email_request: EmailRequest):
     email.origin_time = datetime.now()
 
     message_properties = {
-        'MessageGroupId': 'EmailQueue',
+        'MessageGroupId': Config.MESSAGE_GROUP_ID,
         'MessageDeduplicationId': get_deduplication_id(email)
     }
 

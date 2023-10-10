@@ -15,6 +15,7 @@ class BaseConfig:
     HOST = "127.0.0.1"
     PORT = 8026
 
+    # Used to populate the OpenAPI Documentation
     TITLE = "LAA GOV.UK Notify Orchestrator"
 
     SUMMARY = "API used for Email orchestration between CLA services and GOV.UK Notify."
@@ -34,6 +35,10 @@ class BaseConfig:
         "url": "https://github.com/ministryofjustice/.github/blob/main/LICENSE"
     }
 
+    # Used for AWS SQS, every message must have a group
+    MESSAGE_GROUP_ID = 'EmailQueue'
+
+    # If testing mode is enabled then the endpoint will not attempt to place the email on the queue
     TESTING_MODE = os.environ.get('TESTING_MODE') == 'True'
 
     try:
@@ -47,6 +52,8 @@ class BaseConfig:
         raise EnvironmentError(f"{e}{environment_exception_message}")
 
     try:
+        # If this starts with AMPQ celery will attempt to use the Advanced Message Queue Protocol
+        # If this starts with SQS celery will attempt to use the Simple Queuing Service Protocol
         CELERY_BROKER_URL = os.environ['CELERY_BROKER_URL']
     except KeyError as e:
         raise EnvironmentError(f"{e}{environment_exception_message}")
