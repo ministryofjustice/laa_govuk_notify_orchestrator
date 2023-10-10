@@ -4,6 +4,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
+environment_exception_message = "is a required environment variable. "\
+                                "You can set up a valid .env file by running:\n"\
+                                "cp .env.example .env"
+
+
 class BaseConfig:
     # To change the host and port without altering the config files
     # use the --host & --port optional arguments when you run manage.py
@@ -33,15 +38,15 @@ class BaseConfig:
 
     try:
         QUEUE_NAME = os.environ['QUEUE_NAME']
-    except KeyError:
-        raise KeyError("QUEUE_NAME is a required environment variable")
+    except KeyError as e:
+        raise EnvironmentError(f"{e}{environment_exception_message}")
 
     try:
         QUEUE_URL = os.environ['QUEUE_URL']
-    except KeyError:
-        raise KeyError("QUEUE_URL is a required environment variable")
+    except KeyError as e:
+        raise EnvironmentError(f"{e}{environment_exception_message}")
 
     try:
         CELERY_BROKER_URL = os.environ['CELERY_BROKER_URL']
-    except KeyError:
-        raise KeyError("CELERY_BROKER_URL is a required environment variable")
+    except KeyError as e:
+        raise EnvironmentError(f"{e}{environment_exception_message}")
