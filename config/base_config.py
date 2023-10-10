@@ -29,8 +29,8 @@ class BaseConfig:
         "url": "https://github.com/ministryofjustice/.github/blob/main/LICENSE"
     }
 
-    TESTING_MODE = True if os.environ.get('TESTING_MODE') == 'True' else False
-
+    TESTING_MODE = os.environ.get('TESTING_MODE') == 'True'
+    
     try:
         QUEUE_NAME = os.environ['QUEUE_NAME']
     except KeyError:
