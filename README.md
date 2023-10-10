@@ -46,7 +46,14 @@ pip install -U pip
 pip install -r requirements.txt
 ```
 
-#### 5) Launch the service locally without a message queue
+#### 5) Set up your environment file
+```
+cp .env.example .env
+```
+This will setup the service to use RabbitMQ when running via Docker.
+To use SQS as the message queue please see `docs/SQS.md`.
+
+#### 6) Launch the service locally without a message queue
 
 ```
 python manage.py
