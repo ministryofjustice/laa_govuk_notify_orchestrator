@@ -17,7 +17,7 @@ RUN adduser -D app && \
 
 WORKDIR /notify_orchestrator
 
-COPY ./requirements.txt /notify_orchestrator/requirements.txt
+COPY ./requirements/generated/requirements.txt /notify_orchestrator/requirements.txt
 
 RUN pip install --no-cache-dir --upgrade -r /notify_orchestrator/requirements.txt
 
