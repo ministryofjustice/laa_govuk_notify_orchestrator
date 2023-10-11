@@ -1,7 +1,4 @@
 import os
-from dotenv import load_dotenv
-
-load_dotenv()
 
 
 environment_exception_message = "is a required environment variable. "\
