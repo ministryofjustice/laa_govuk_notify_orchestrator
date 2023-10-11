@@ -1,5 +1,8 @@
 import os
+from dotenv import load_dotenv
 
+
+load_dotenv()
 
 environment_exception_message = "is a required environment variable. "\
                                 "You can set up a valid .env file by running:\n"\

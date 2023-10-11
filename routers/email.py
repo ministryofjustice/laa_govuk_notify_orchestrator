@@ -26,7 +26,7 @@ async def send_email(email_request: EmailRequest):
     """
     email = Email(email_request)
 
-    # This is used to ensure that genuine duplicate emails are not removed as duplicates
+    # This is used as a factor in the deduplication_id to ensure that genuine duplicate emails are not removed as duplicates
     email.origin_time = datetime.now()
 
     message_properties = {

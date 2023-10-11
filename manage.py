@@ -9,8 +9,6 @@ logger = logging.getLogger("uvicorn")
 parser = argparse.ArgumentParser(description='Manages the GOV.UK Notify"\
                                 "Orchestration API')
 
-parser.add_argument("command", choices=["", "runserver", "test", "tests"], nargs='?')
-
 parser.add_argument('--host', type=str,
                     help=f"(Optional) Sets which host to run the API on, "
                          f"defaults to {Config.HOST}")

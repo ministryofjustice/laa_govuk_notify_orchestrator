@@ -12,10 +12,3 @@ def get_task_info(task_id):
         "task_result": task_result.result
     }
     return result
-
-
-def route_task(name):
-    if ":" in name:
-        queue, _ = name.split(":")
-        return {"queue": queue}
-    return {"queue": "celery"}
