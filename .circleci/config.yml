@@ -2,7 +2,7 @@
 version: 2.1
 
 jobs:
-  lint-with-py3-tools:
+  lint:
     docker:
       - image: cimg/python:3.11
     steps:
@@ -10,22 +10,32 @@ jobs:
       - run:
           name: Setup Python environment
           command: |
-            python3.11 -m venv env --prompt=\(notify_api\)
+            python3.11 -m venv env-linting --prompt=\(linting\)
 
       - restore_cache:
           keys:
-            - pip-v1-{{ checksum "requirements/generated/requirements-py2-lint.txt" }}
+            - pip-v1-{{ checksum "requirements/generated/requirements-linting.txt" }}
       - run:
           name: Install dependencies
           command: |
-            source py2-lint-env/bin/activate
-            pip install --requirement requirements/generated/requirements-py2-lint.txt
+            source env-linting/bin/activate
+            pip install -r requirements/generated/requirements-linting.txt
       - save_cache:
-          key: pip-v1-{{ checksum "requirements/generated/requirements-py2-lint.txt" }}
+          key: pip-v1-{{ checksum "requirements/generated/requirements-linting.txt" }}
           paths:
             - "~/.cache/pip"
       - run:
-          name: Lint with flake8
+          name: Lint with Flake8
           command: |
-            source py2-lint-env/bin/activate
-            flake8 cla_public
+            source env-linting/bin/activate
+            flake8
+      - run:
+          name: Lint with Black
+          command: |
+            source env-linting/bin/activate
+            black .
+
+workflows:
+  test_and_build:
+    jobs:
+      - lint
