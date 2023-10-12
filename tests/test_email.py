@@ -1,5 +1,5 @@
 from fastapi.testclient import TestClient
-from app import app
+from app import notify_orchestrator_api as app
 from tests.utils.error_messages import ErrorMessages
 from tests.test_data.email import TestData
 

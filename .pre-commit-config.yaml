@@ -1,0 +1,22 @@
+default_language_version:
+  python: python3.11
+repos:
+  - repo: https://github.com/ambv/black
+    rev: 23.9.1
+    hooks:
+      - id: black
+        language_version: python3.11
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.1.0
+    hooks:
+      - id: flake8
+        language_version: python3.11
+        args: ["--config=setup.cfg", "--exclude=./cla_backend/settings/*,./docs/*"]
+  - repo: https://github.com/jazzband/pip-tools
+    rev: 7.3.0
+    hooks:
+      - id: pip-compile
+        language_version: python3.11
+        name: pip-compile requirements.in
+        files: requirements.in
+        args: [requirements/source/requirements.in, "--output-file", requirements/generated/requirements.txt]
