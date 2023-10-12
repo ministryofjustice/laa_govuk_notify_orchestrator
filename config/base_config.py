@@ -43,12 +43,14 @@ class BaseConfig:
     except KeyError as e:
         if not TESTING_MODE:
             raise EnvironmentError(f"{e}{environment_exception_message}")
+        QUEUE_NAME = ""
 
     try:
         QUEUE_URL = os.environ["QUEUE_URL"]
     except KeyError as e:
         if not TESTING_MODE:
             raise EnvironmentError(f"{e}{environment_exception_message}")
+        QUEUE_URL = ""
 
     try:
         # If this starts with AMPQ celery will attempt to use the Advanced Message Queue Protocol
@@ -57,3 +59,4 @@ class BaseConfig:
     except KeyError as e:
         if not TESTING_MODE:
             raise EnvironmentError(f"{e}{environment_exception_message}")
+        CELERY_BROKER_URL = ""
