@@ -5,6 +5,7 @@ jobs:
   lint:
     docker:
       - image: cimg/python:3.11
+    resource_class: small
     steps:
       - checkout
       - run:
@@ -38,6 +39,7 @@ jobs:
   unit_test:
     docker:
       - image: cimg/python:3.11
+    resource_class: small
     steps:
       - checkout
       - run:
