@@ -17,5 +17,10 @@ repos:
       - id: pip-compile
         language_version: python3.11
         name: pip-compile requirements.in
-        files: requirements.in
+        files: requirements(|lint).in
         args: [requirements/source/requirements.in, "--output-file", requirements/generated/requirements.txt]
+      - id: pip-compile
+        language_version: python3.11
+        name: pip-compile requirements-linting.in
+        files: requirements(|-lint).in
+        args: [requirements/source/requirements-linting.in, "--output-file", requirements/generated/requirements-linting.txt]
