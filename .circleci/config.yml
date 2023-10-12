@@ -28,7 +28,6 @@ jobs:
           name: Lint with Flake8
           command: |
             source env/bin/activate
-            flake8 app
             flake8 
       - run:
           name: Lint with Black
@@ -36,7 +35,36 @@ jobs:
             source env/bin/activate
             black .
 
+  unit_test:
+    docker:
+      - image: cimg/python:3.11
+    steps:
+      - checkout
+      - run:
+          name: Setup Python environment
+          command: |
+            python3.11 -m venv env --prompt=\(unit_test\)
+
+      - restore_cache:
+          keys:
+            - pip-v1-{{ checksum "requirements/generated/requirements.txt" }}
+      - run:
+          name: Install dependencies
+          command: |
+            source env/bin/activate
+            pip install -r requirements/generated/requirement.txt
+      - save_cache:
+          key: pip-v1-{{ checksum "requirements/generated/requirements.txt" }}
+          paths:
+            - "~/.cache/pip"
+      - run:
+          name: Run Unit Tests
+          command: |
+            source env/bin/activate
+            pytest
+
 workflows:
   test_and_build:
     jobs:
       - lint
+      - unit_test
