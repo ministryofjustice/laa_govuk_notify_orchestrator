@@ -41,16 +41,19 @@ class BaseConfig:
     try:
         QUEUE_NAME = os.environ["QUEUE_NAME"]
     except KeyError as e:
-        raise EnvironmentError(f"{e}{environment_exception_message}")
+        if not TESTING_MODE:
+            raise EnvironmentError(f"{e}{environment_exception_message}")
 
     try:
         QUEUE_URL = os.environ["QUEUE_URL"]
     except KeyError as e:
-        raise EnvironmentError(f"{e}{environment_exception_message}")
+        if not TESTING_MODE:
+            raise EnvironmentError(f"{e}{environment_exception_message}")
 
     try:
         # If this starts with AMPQ celery will attempt to use the Advanced Message Queue Protocol
         # If this starts with SQS celery will attempt to use the Simple Queuing Service Protocol
         CELERY_BROKER_URL = os.environ["CELERY_BROKER_URL"]
     except KeyError as e:
-        raise EnvironmentError(f"{e}{environment_exception_message}")
+        if not TESTING_MODE:
+            raise EnvironmentError(f"{e}{environment_exception_message}")

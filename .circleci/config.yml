@@ -59,6 +59,8 @@ jobs:
             - "~/.cache/pip"
       - run:
           name: Run Unit Tests
+          environment:
+            TESTING_MODE: "True"
           command: |
             source env/bin/activate
             pytest
