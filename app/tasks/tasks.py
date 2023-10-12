@@ -5,6 +5,6 @@ import logging
 logger = logging.getLogger("uvicorn")
 
 
-@app.task(name='email:email_task')
-def email_task(email: Email, MessageGroupId='EmailQueue'):
+@app.task(name="email:email_task")
+def email_task(email: Email, MessageGroupId="EmailQueue"):
     logger.info(f"Email object read from queue {email}")

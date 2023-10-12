@@ -19,7 +19,9 @@ def get_deduplication_id(email: Email) -> str:
     sha = hashlib.sha256()
 
     try:
-        email_deduplication_fields = f"{email.email_address}{email.template_id}{email.personalisation}{email.origin_time}"
+        email_deduplication_fields = (
+            f"{email.email_address}{email.template_id}{email.personalisation}{email.origin_time}"
+        )
     except AttributeError as e:
         raise AttributeError(f"Missing required email field {e}")
 
