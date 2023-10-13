@@ -49,8 +49,9 @@ jobs:
           name: Create target tags
           command:            
             echo "export ECR_DEPLOY_IMAGE=${AWS_ECR_REGISTRY_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com/$ECR_REPOSITORY:$CIRCLE_SHA1" >> $BASH_ENV
-      - run: |
-          aws ecr get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin ${AWS_ECR_REGISTRY_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com
+      - run:
+          name: Authenticate to AWS
+          command: aws ecr get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin ${AWS_ECR_REGISTRY_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com
 
       - run:
           name: Install trivy
