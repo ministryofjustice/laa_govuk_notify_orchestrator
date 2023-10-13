@@ -26,14 +26,64 @@ jobs:
           role_arn: $ECR_ROLE_TO_ASSUME # this will use the env var
           region: $ECR_REGION # this will use the env var
       # Authenticate to the ECR repository using the standard command
-      - run: |
-          aws ecr get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin ${AWS_ECR_REGISTRY_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com
+      - run:
+          name: Authenticate to AWS
+          command: aws ecr get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin ${AWS_ECR_REGISTRY_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com
       # Build and push your Docker image
       - aws-ecr/build-image:
           push-image: true
           tag: ${CIRCLE_SHA1}
           region: $ECR_REGION # this will use the env var
           repo: $ECR_REPOSITORY # this will use the env var
+
+
+  image_security_scan:
+    executor: aws-ecr/default # use the aws-ecr/default executor to start the docker daemon
+    steps:
+      # Checkout your repository
+      - checkout
+      # Authenticate to AWS using OIDC v2 with the AWS CLI
+      - aws-cli/setup:
+          role_arn: $ECR_ROLE_TO_ASSUME # this will use the env var
+          region: $ECR_REGION # this will use the env var
+      # Authenticate to the ECR repository using the standard command
+      - run:
+          name: Create target tags
+          command: |
+            source .circleci/define_build_environment_variables
+            echo "export ECR_DEPLOY_IMAGE=${AWS_ECR_REGISTRY_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com/$ECR_REPOSITORY:$CIRCLE_SHA1" >> $BASH_ENV
+      - run: |
+          aws ecr get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin ${AWS_ECR_REGISTRY_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com
+
+      - run:
+          name: Install trivy
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y curl wget
+            VERSION=$(
+                curl --silent "https://api.github.com/repos/aquasecurity/trivy/releases/latest" | \
+                grep '"tag_name":' | \
+                sed -E 's/.*"v([^"]+)".*/\1/'
+            )
+
+            wget https://github.com/aquasecurity/trivy/releases/download/v${VERSION}/trivy_${VERSION}_Linux-64bit.tar.gz
+            tar zxvf trivy_${VERSION}_Linux-64bit.tar.gz
+            sudo mv trivy /usr/local/bin
+      - run:
+          name: Pull down image
+          command: |
+            source .circleci/define_build_environment_variables
+            docker pull ${ECR_DEPLOY_IMAGE}
+      - run:
+          name: Scan for vulnerabilities (informative, non-breaking)
+          command: |
+            source .circleci/define_build_environment_variables
+            trivy image --exit-code 0 --severity UNKNOWN,LOW,MEDIUM,HIGH --no-progress ${ECR_DEPLOY_IMAGE}
+      - run:
+          name: Scan for breaking vulnerabilities
+          command: |
+            source .circleci/define_build_environment_variables
+            trivy image --exit-code 1 --severity CRITICAL --no-progress ${ECR_DEPLOY_IMAGE}
 
   lint:
     docker:
@@ -107,3 +157,23 @@ workflows:
       - unit_test
       - build:
           context: laa-govuk-notify-orchestrator
+          requires:
+            - lint
+            - unit_test
+      - image_security_scan:
+          context: laa-govuk-notify-orchestrator
+          requires:
+            - build
+      - staging_deploy_approval:
+          type: approval
+          requires:
+            - build
+      - production_deploy_approval:
+          type: approval
+          requires:
+            #- staging_deploy_live
+            - image_security_scan
+          filters:
+            branches:
+                only:
+                    - master
