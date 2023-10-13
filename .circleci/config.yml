@@ -48,8 +48,7 @@ jobs:
       # Authenticate to the ECR repository using the standard command
       - run:
           name: Create target tags
-          command: |
-            source .circleci/define_build_environment_variables
+          command:            
             echo "export ECR_DEPLOY_IMAGE=${AWS_ECR_REGISTRY_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com/$ECR_REPOSITORY:$CIRCLE_SHA1" >> $BASH_ENV
       - run: |
           aws ecr get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin ${AWS_ECR_REGISTRY_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com
@@ -71,17 +70,14 @@ jobs:
       - run:
           name: Pull down image
           command: |
-            source .circleci/define_build_environment_variables
             docker pull ${ECR_DEPLOY_IMAGE}
       - run:
           name: Scan for vulnerabilities (informative, non-breaking)
           command: |
-            source .circleci/define_build_environment_variables
             trivy image --exit-code 0 --severity UNKNOWN,LOW,MEDIUM,HIGH --no-progress ${ECR_DEPLOY_IMAGE}
       - run:
           name: Scan for breaking vulnerabilities
           command: |
-            source .circleci/define_build_environment_variables
             trivy image --exit-code 1 --severity CRITICAL --no-progress ${ECR_DEPLOY_IMAGE}
 
   lint:
