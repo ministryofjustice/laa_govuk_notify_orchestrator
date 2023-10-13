@@ -62,7 +62,7 @@ jobs:
           name: Lint with Flake8
           command: |
             source env/bin/activate
-            flake8 
+            flake8
       - run:
           name: Lint with Black
           command: |
