@@ -117,7 +117,7 @@ jobs:
     docker:
       - image: cimg/python:3.11
     environment:
-            TESTING_MODE: "True"
+      TESTING_MODE: "True"
     resource_class: small
     steps:
       - checkout
