@@ -142,6 +142,7 @@ jobs:
           name: Run Unit Tests
           command: |
             source env/bin/activate
+            mkdir test-results
             pytest --junitxml=test-results/junit.xml
       - store_test_results:
           path: test-results
