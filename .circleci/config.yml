@@ -154,8 +154,6 @@ jobs:
     parameters:
       namespace:
         type: string
-      dynamic_hostname:
-        type: boolean
     executor: cloud-platform-executor
     shell: /bin/sh -leo pipefail
     environment:
