@@ -12,7 +12,7 @@ def create_app():
         version=Config.VERSION,
         terms_of_service=Config.TERMS_OF_SERVICE,
         license_info=Config.LICENCE_INFO,
-        lifespan=lifespan
+        lifespan=lifespan,
     )
 
     app.celery_app = create_celery()

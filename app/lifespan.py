@@ -13,8 +13,7 @@ async def lifespan(app):
 
 
 def on_startup(app):
-    logger.info(f"Documentation can be found at the {app.docs_url} "
-                f"or {app.redoc_url} endpoints.")
+    logger.info(f"Documentation can be found at the {app.docs_url} " f"or {app.redoc_url} endpoints.")
     logger.info("Using the following queue configuation:")
     logger.info(f"Queue name: {Config.QUEUE_NAME}")
     logger.info(f"Queue URL: {Config.QUEUE_URL}")

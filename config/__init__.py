@@ -5,6 +5,10 @@ from .prod_config import ProductionConfig
 
 current_environment = os.environ.get("ENV", "development")
 
-Config = ProductionConfig if current_environment == "production" \
-    else StagingConfig if current_environment == "staging" \
+Config = (
+    ProductionConfig
+    if current_environment == "production"
+    else StagingConfig
+    if current_environment == "staging"
     else DevConfig
+)

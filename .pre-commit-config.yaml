@@ -6,17 +6,21 @@ repos:
     hooks:
       - id: black
         language_version: python3.11
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v2.1.0
+  - repo: https://github.com/pycqa/flake8
+    rev: 6.1.0
     hooks:
       - id: flake8
         language_version: python3.11
-        args: ["--config=setup.cfg", "--exclude=./cla_backend/settings/*,./docs/*"]
   - repo: https://github.com/jazzband/pip-tools
     rev: 7.3.0
     hooks:
       - id: pip-compile
         language_version: python3.11
         name: pip-compile requirements.in
-        files: requirements.in
+        files: requirements(|lint).in
         args: [requirements/source/requirements.in, "--output-file", requirements/generated/requirements.txt]
+      - id: pip-compile
+        language_version: python3.11
+        name: pip-compile requirements-linting.in
+        files: requirements(|-lint).in
+        args: [requirements/source/requirements-linting.in, "--output-file", requirements/generated/requirements-linting.txt]

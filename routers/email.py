@@ -30,8 +30,8 @@ async def send_email(email_request: EmailRequest):
     email.origin_time = datetime.now()
 
     message_properties = {
-        'MessageGroupId': Config.MESSAGE_GROUP_ID,
-        'MessageDeduplicationId': get_deduplication_id(email)
+        "MessageGroupId": Config.MESSAGE_GROUP_ID,
+        "MessageDeduplicationId": get_deduplication_id(email),
     }
 
     if Config.TESTING_MODE:
@@ -39,7 +39,7 @@ async def send_email(email_request: EmailRequest):
         return
 
     try:
-        email_task.apply_async((email, ), **message_properties)
+        email_task.apply_async((email,), **message_properties)
     except OperationalError:
         raise OperationalError("Please ensure your Message Queue environment variables are set correctly.")
     return

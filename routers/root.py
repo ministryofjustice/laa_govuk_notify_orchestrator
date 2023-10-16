@@ -11,4 +11,4 @@ def read_root():
     API Endpoint for "/".
     Automatically redirects the user to the documentation if attempting to view the root of the service.
     """
-    return RedirectResponse(url='/redoc')
+    return RedirectResponse(url="/redoc")
