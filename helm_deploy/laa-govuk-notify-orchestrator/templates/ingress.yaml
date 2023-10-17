@@ -1,0 +1,36 @@
+{{- if .Values.ingress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: laa-govuk-notify-orchestrator
+  namespace: {{.Release.Namespace}}
+  annotations:
+    external-dns.alpha.kubernetes.io/set-identifier: laa-govuk-notify-orchestrator-{{.Release.Namespace}}-green
+    external-dns.alpha.kubernetes.io/aws-weight: "100"
+    nginx.ingress.kubernetes.io/enable-modsecurity: "true"
+spec:
+  ingressClassName: "modsec"
+  tls:
+  - hosts:
+      - {{.Release.Namespace}}.cloud-platform.service.justice.gov.uk
+  rules:
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: laa-govuk-notify-orchestrator
+            port:
+              number: 80
+  - host: {{.Release.Namespace}}.cloud-platform.service.justice.gov.uk
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: laa-govuk-notify-orchestrator
+            port: 
+              number: 80
+{{- end }}
