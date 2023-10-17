@@ -198,7 +198,8 @@ workflows:
       - staging_deploy_approval:
           type: approval
           requires:
-            - build
+            - development_deploy
+            - image_security_scan
       - deploy:
           name: staging_deploy
           namespace: staging
