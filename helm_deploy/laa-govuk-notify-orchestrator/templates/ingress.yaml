@@ -2,10 +2,10 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: laa-govuk-notify-orchestrator
+  name: {{ include "laa-govuk-notify-orchestrator.fullname" . }}-app
   namespace: {{.Release.Namespace}}
   annotations:
-    external-dns.alpha.kubernetes.io/set-identifier: laa-govuk-notify-orchestrator-{{.Release.Namespace}}-green
+    external-dns.alpha.kubernetes.io/set-identifier: {{ include "laa-govuk-notify-orchestrator.fullname" . }}-app-{{.Release.Namespace}}-green
     external-dns.alpha.kubernetes.io/aws-weight: "100"
     nginx.ingress.kubernetes.io/enable-modsecurity: "true"
 spec:
@@ -14,15 +14,6 @@ spec:
   - hosts:
       - {{.Release.Namespace}}.cloud-platform.service.justice.gov.uk
   rules:
-    http:
-      paths:
-      - path: /
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: laa-govuk-notify-orchestrator
-            port:
-              number: 80
   - host: {{.Release.Namespace}}.cloud-platform.service.justice.gov.uk
     http:
       paths:
@@ -30,7 +21,7 @@ spec:
         pathType: ImplementationSpecific
         backend:
           service:
-            name: laa-govuk-notify-orchestrator
+            name: {{ include "laa-govuk-notify-orchestrator.fullname" . }}-app
             port: 
               number: 80
 {{- end }}
