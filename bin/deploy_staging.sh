@@ -8,6 +8,6 @@ helm upgrade laa-govuk-notify-orchestrator \
   $HELM_DIR \
   --namespace=$NAMESPACE \
   --values ${HELM_DIR}/values-staging.yaml \
-  --set image.repository=$ECR_REPOSITORY \
+  --set image.repository=$REGISTRY_HOST \
   --set image.tag=$CIRCLE_SHA1 \
   --install
