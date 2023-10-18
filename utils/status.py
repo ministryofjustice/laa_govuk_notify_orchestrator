@@ -1,37 +1,60 @@
 from config import Config
 from celery import current_app as celery_app
 import boto3
+from utils.celery import get_message_queue_protocol
 
 
 def is_queue_alive() -> bool:
     """
     Returns True if the active queue, as determined by Config.QUEUE_NAME is alive.
 
-    If you are using AMQP as the Message Broker protocol then it will ping the celery workers
+    If you are using AMQP as the Message Broker protocol then it will check that the queue name defined by Config.QUEUE_NAME has been created.
 
     If you are using SQS as the Message Broker protocol then it will find the URL of the queue with the given Config QUEUE_NAME and ensure that the QUEUE_URL matches,
     if this matches then the queue can be found and the client must have the required permissions.
     We use this method because SQS does not yet support worker remote control commands. https://docs.celeryq.dev/en/stable/getting-started/backends-and-brokers/sqs.html
     """
-    if "amqp://" in Config.CELERY_BROKER_URL:
-        inspector = celery_app.control.inspect()
-        worker_response = inspector.active_queues()
-        if len(worker_response) == 0:
-            return False
-        for worker in worker_response:
-            queues = worker_response[worker]
-            if len(queues) == 0:
-                return False
-            for queue in queues:
-                try:
-                    if queue["name"] == Config.QUEUE_NAME:
-                        return True
-                except KeyError:
-                    return False
-        return False
+    message_queue_protocol = get_message_queue_protocol()
 
-    if "sqs://" in Config.CELERY_BROKER_URL:
-        client = boto3.client("sqs")
-        return client.get_queue_url(QueueName=Config.QUEUE_NAME) == Config.QUEUE_URL
+    if message_queue_protocol == "AMQP":
+        return is_rabbit_mq_queue_created()
+
+    if message_queue_protocol == "SQS":
+        return is_sqs_queue_created()
 
     return False
+
+
+def is_rabbit_mq_queue_created():
+    """
+    Returns True if there is a RabbitMQ Queue with the name specified in Config.QUEUE_NAME
+    """
+    inspector = celery_app.control.inspect()
+    worker_response = inspector.active_queues()
+    if len(worker_response) == 0:
+        return False
+    for worker in worker_response:
+        queues = worker_response[worker]
+        if len(queues) == 0:
+            return False
+        for queue in queues:
+            try:
+                if queue["name"] == Config.QUEUE_NAME:
+                    return True
+            except KeyError:
+                return False
+    return False
+
+
+def is_sqs_queue_created():
+    """
+    Returns True if the SQS Queue URL matches the Queue URL found when querying SQS.
+    If this check passes then we know we have permission to query and interact with the queue
+    and the resource has been created sucessfully.
+    """
+    client = boto3.client("sqs")
+    response = client.get_queue_url(QueueName=Config.QUEUE_NAME)
+    try:
+        return response["QueueUrl"] == Config.QUEUE_URL
+    except KeyError:
+        return False
