@@ -1,7 +1,6 @@
 from fastapi.routing import APIRouter
-from config import Config
-from celery import current_app as celery_app
-import boto3
+from utils.status import is_queue_alive
+from fastapi import HTTPException
 
 
 status_router = APIRouter()
@@ -13,12 +12,6 @@ def read_status():
     API Endpoint for "/status".
     Returns 200 if the service is alive.
     """
-    if "amqp://" in Config.CELERY_BROKER_URL:
-        inspector = celery_app.control.inspect()
-        is_celery_worker_alive = inspector.ping()
-        response = {"status": is_celery_worker_alive}
-        return response
-    if "sqs://" in Config.CELERY_BROKER_URL:
-        client = boto3.client("sqs")
-        response = {"status": client.get_queue_url(QueueName=Config.QUEUE_NAME)}
-        return response
+    if not is_queue_alive():
+        raise HTTPException(status_code=503, detail="Queue could not be found")
+    return {"status": "ok"}
