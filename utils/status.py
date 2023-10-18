@@ -57,7 +57,7 @@ def is_sqs_queue_created(queue_name: str):
     try:
         response = client.get_queue_url(QueueName=queue_name)
     except ClientError:
-        # If a client error is raised then the queue does not exists.
+        # If a ClientError is raised then the queue does not exist.
         return False
     try:
         return response["QueueUrl"] == Config.QUEUE_URL
