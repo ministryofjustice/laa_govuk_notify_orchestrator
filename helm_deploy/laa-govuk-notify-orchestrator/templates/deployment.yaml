@@ -43,8 +43,8 @@ spec:
             httpGet:
               path: /status
               port: http
-              initialDelaySeconds: 10
-              periodSeconds: 30
+            initialDelaySeconds: 10
+            periodSeconds: 30
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
