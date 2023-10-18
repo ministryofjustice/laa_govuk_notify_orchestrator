@@ -1,7 +1,7 @@
 from config import Config
 from celery import current_app as celery_app
-import boto3
 from utils.celery import get_message_queue_protocol
+import boto3
 
 
 def is_queue_alive() -> bool:
@@ -17,15 +17,15 @@ def is_queue_alive() -> bool:
     message_queue_protocol = get_message_queue_protocol()
 
     if message_queue_protocol == "AMQP":
-        return is_rabbit_mq_queue_created()
+        return is_rabbit_mq_queue_created(Config.QUEUE_NAME)
 
     if message_queue_protocol == "SQS":
-        return is_sqs_queue_created()
+        return is_sqs_queue_created(Config.QUEUE_NAME)
 
     return False
 
 
-def is_rabbit_mq_queue_created():
+def is_rabbit_mq_queue_created(queue_name: str):
     """
     Returns True if there is a RabbitMQ Queue with the name specified in Config.QUEUE_NAME
     """
@@ -46,7 +46,7 @@ def is_rabbit_mq_queue_created():
     return False
 
 
-def is_sqs_queue_created():
+def is_sqs_queue_created(queue_name: str):
     """
     Returns True if the SQS Queue URL matches the Queue URL found when querying SQS.
     If this check passes then we know we have permission to query and interact with the queue
