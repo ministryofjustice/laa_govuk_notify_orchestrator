@@ -1,6 +1,7 @@
 from config import Config
 from celery import current_app as celery_app
 from utils.celery import get_message_queue_protocol
+from botocore.exceptions import ClientError
 import boto3
 
 
@@ -39,7 +40,7 @@ def is_rabbit_mq_queue_created(queue_name: str):
             return False
         for queue in queues:
             try:
-                if queue["name"] == Config.QUEUE_NAME:
+                if queue["name"] == queue_name:
                     return True
             except KeyError:
                 return False
@@ -53,7 +54,11 @@ def is_sqs_queue_created(queue_name: str):
     and the resource has been created sucessfully.
     """
     client = boto3.client("sqs")
-    response = client.get_queue_url(QueueName=Config.QUEUE_NAME)
+    try:
+        response = client.get_queue_url(QueueName=queue_name)
+    except ClientError:
+        # If a client error is raised then the queue does not exists.
+        return False
     try:
         return response["QueueUrl"] == Config.QUEUE_URL
     except KeyError:
