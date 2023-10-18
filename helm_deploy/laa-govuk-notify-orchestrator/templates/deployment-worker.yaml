@@ -20,15 +20,8 @@ spec:
           args: ["bin/run_worker.sh"]
           env:
             {{ include "laa-govuk-notify-orchestrator.app.vars" . | nindent 12 }}
-          #readinessProbe:
-          #  exec:
-          #    command: ["python", "manage.py", "worker_probes"]
-          #  initialDelaySeconds: 10
-          #  timeoutSeconds: 10
-          #  periodSeconds: 10
-          #livenessProbe:
-          #  exec:
-          #    command: ["python", "manage.py", "worker_probes"]
-          #  initialDelaySeconds: 10
-          #  timeoutSeconds: 10
-          #  periodSeconds: 10
+          livenessProbe:
+            exec:
+              command: ["python", "manage.py", "worker_probes"]
+            initialDelaySeconds: 10
+            periodSeconds: 30
