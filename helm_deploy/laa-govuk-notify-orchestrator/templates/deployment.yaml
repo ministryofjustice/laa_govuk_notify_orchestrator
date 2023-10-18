@@ -18,7 +18,7 @@ spec:
       labels:
         {{- include "laa-govuk-notify-orchestrator.selectorLabels" . | nindent 8 }}
         app: api
-	{{- with .Values.podLabels }}
+        {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
