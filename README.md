@@ -53,7 +53,7 @@ cp .env.example .env
 ```
 
 This will setup the service to use RabbitMQ when running via Docker.
-o use SQS as the message queue please see `docs/SQS.md`.
+To use SQS as the message queue please see `docs/SQS.md`.
 
 #### 6) Launch the service locally without a message queue
 
