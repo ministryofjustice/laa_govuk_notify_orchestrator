@@ -60,3 +60,10 @@ class BaseConfig:
         if not TESTING_MODE:
             raise EnvironmentError(f"{e}{environment_exception_message}")
         CELERY_BROKER_URL = ""
+
+    try:
+        GOVUK_NOTIFY_API_KEY = os.environ["GOVUK_NOTIFY_API_KEY"]
+    except KeyError as e:
+        if not TESTING_MODE:
+            raise EnvironmentError(f"{e}{environment_exception_message}")
+        GOVUK_NOTIFY_API_KEY = ""

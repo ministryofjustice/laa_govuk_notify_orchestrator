@@ -1,5 +1,6 @@
 from config import Config
 from celery import current_app as current_celery_app
+from app.tasks.tasks import EmailTask
 
 
 def create_celery():
@@ -17,6 +18,7 @@ def create_celery():
     celery_app.conf.update(
         broker_transport_options={"predefined_queues": {Config.QUEUE_NAME: {"url": Config.QUEUE_URL}}}
     )
-    celery_app.autodiscover_tasks(["app.tasks"])
+
+    celery_app.register_task(EmailTask())
 
     return celery_app
