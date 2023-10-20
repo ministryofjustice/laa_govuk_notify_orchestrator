@@ -1,6 +1,6 @@
 from config import Config
 from fastapi.routing import APIRouter
-from app.tasks.tasks import email_task
+from app.tasks.email import email_task
 from models.request_models.email import Email as EmailRequest
 from models.email import Email
 from routers.docs.email_router import EmailRouter
