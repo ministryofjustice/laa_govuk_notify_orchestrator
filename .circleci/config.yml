@@ -186,7 +186,8 @@ workflows:
     jobs:
       - lint
       - unit_test
-      - integration_test
+      - integration_test:
+          context: laa-govuk-notify-orchestrator
       - build:
           context: laa-govuk-notify-orchestrator
           requires:
