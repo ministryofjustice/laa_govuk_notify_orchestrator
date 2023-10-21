@@ -1,6 +1,6 @@
 from celery import current_app as app
 from config import Config
-from models.email import Email
+from app.email import Email
 from notifications_python_client.errors import HTTPError
 import logging
 

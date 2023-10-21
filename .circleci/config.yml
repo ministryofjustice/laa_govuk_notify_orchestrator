@@ -142,18 +142,57 @@ jobs:
           name: Run Unit Tests
           command: |
             source env/bin/activate
-            pytest
+            mkdir test-results
+            pytest tests/unit_tests --junitxml=test-results/unit_tests.xml
+      - store_test_results:
+          path: test-results
+
+  integration_test:
+    docker:
+      - image: cimg/python:3.11
+    environment:
+      TESTING_MODE: "True"
+      resource_class: small
+    steps:
+      - checkout
+      - run:
+          name: Setup Python environment
+          command: |
+            python3.11 -m venv env --prompt=\(unit_test\)
+
+      - restore_cache:
+          keys:
+            - pip-v1-{{ checksum "requirements/generated/requirements.txt" }}
+      - run:
+          name: Install dependencies
+          command: |
+            source env/bin/activate
+            pip install -r requirements/generated/requirements.txt
+      - save_cache:
+          key: pip-v1-{{ checksum "requirements/generated/requirements.txt" }}
+          paths:
+            - "~/.cache/pip"
+      - run:
+          name: Run Integration Tests
+          command: |
+            source env/bin/activate
+            mkdir test-results
+            pytest tests/integration_tests --junitxml=test-results/integration_tests.xml
+      - store_test_results:
+          path: test-results
 
 workflows:
   test_and_build:
     jobs:
       - lint
       - unit_test
+      - integration_test
       - build:
           context: laa-govuk-notify-orchestrator
           requires:
             - lint
             - unit_test
+            - integration_test
       - image_security_scan:
           context: laa-govuk-notify-orchestrator
           requires:

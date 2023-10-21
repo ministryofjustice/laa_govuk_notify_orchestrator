@@ -7,6 +7,7 @@ from config import Config
 class Email(EmailRequest):
     """
     This is the Email model, which defines what an email object on the message queue looks like.
+    It is initalised based upon an EmailReqest, which defines the structure of an incoming payload.
     """
 
     origin_time: datetime = None

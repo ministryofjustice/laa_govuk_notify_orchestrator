@@ -38,8 +38,6 @@ class BaseConfig:
     # If testing mode is enabled then the endpoint will not attempt to place the email on the queue
     TESTING_MODE = os.environ.get("TESTING_MODE") == "True"
 
-    print(os.environ.get("TESTING_MODE"))
-
     # Limits the number of retries, 32 Retries means the email will be lost if after 24 hours we are still unable to get a response
     MAX_RETRIES = 32
 

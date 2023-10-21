@@ -1,4 +1,4 @@
-from models.email import Email
+from app.email import Email
 from models.request_models.email import Email as EmailRequest
 from tests.test_data.email import TestData
 
