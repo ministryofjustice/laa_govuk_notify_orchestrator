@@ -39,7 +39,7 @@ class BaseConfig:
     TESTING_MODE = os.environ.get("TESTING_MODE") == "True"
 
     # Limits the number of retries, 32 Retries means the email will be lost if after 24 hours we are still unable to get a response
-    MAX_RETRIES = 32
+    MAX_RETRIES = os.environ.get("MAX_RETRIES", 32)
 
     try:
         QUEUE_NAME = os.environ["QUEUE_NAME"]
