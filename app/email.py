@@ -1,6 +1,6 @@
 from datetime import datetime
 from models.request_models.email import Email as EmailRequest
-from app.notify import send_email as send_email_to_notify
+from app.notify import NotifyClient
 from config import Config
 
 
@@ -24,7 +24,7 @@ class Email(EmailRequest):
         )
 
     def send_email(self):
-        send_email_to_notify(self.email_address, self.template_id, self.personalisation)
+        NotifyClient().send_email(self.email_address, self.template_id, self.personalisation)
 
     def get_retry_time_seconds(self) -> int:
         """
