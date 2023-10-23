@@ -20,16 +20,21 @@ class EmailTask(app.Task):
     @staticmethod
     def log_error_message(exception: Exception):
         if not isinstance(exception, HTTPError):
-            logger.error(exception)
+            logger.error(f"Notify error: {exception.__class__.__name__} - {exception}")
             return
 
-        for error_message in exception.message:
+        log_method = logger.critical if exception.status_code in range(400, 499) else logger.error
+
+        if isinstance(exception.message, str):
+            log_method(f"Notify error: {exception.status_code} - {exception.message}")
+            return
+
+        for error in exception.message:
             try:
-                logger.error(
-                    f"Notify error: {exception.status_code} - {error_message['error']}: {error_message['message']}"
-                )
+                message = f"{error['error']}: {error['message']}"
             except KeyError:
-                logger.error(f"Notify error: {exception.status_code} - {error_message.message}")
+                message = f"{error}"
+            log_method(f"Notify error: {exception.status_code} - {message}")
 
     @staticmethod
     def get_retry_time_seconds(email: Email) -> int:
