@@ -1,6 +1,7 @@
 from app.email import Email
 from models.request_models.email import Email as EmailRequest
 from tests.test_data.email import TestData
+from app.tasks.email import EmailTask
 
 
 class TestRetryTime:
@@ -13,16 +14,16 @@ class TestRetryTime:
 
         for expected_result in expected_retry_time_seconds:
             self.email.retry_count += 1
-            assert self.email.get_retry_time_seconds() == expected_result
+            assert EmailTask.get_retry_time_seconds(self.email) == expected_result
 
     def test_invalid_count(self):
         self.email.retry_count = 0
-        assert self.email.get_retry_time_seconds() == 300
+        assert EmailTask.get_retry_time_seconds(self.email) == 300
 
     def test_invalid_data_type(self):
         self.email.retry_count = "apple"
-        assert self.email.get_retry_time_seconds() == 300
+        assert EmailTask.get_retry_time_seconds(self.email) == 300
 
     def test_no_retry_count(self):
         self.email.retry_count = None
-        assert self.email.get_retry_time_seconds() == 300
+        assert EmailTask.get_retry_time_seconds(self.email) == 300

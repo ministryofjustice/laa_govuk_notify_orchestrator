@@ -31,6 +31,23 @@ class EmailTask(app.Task):
             except KeyError:
                 logger.error(f"Notify error: {exception.status_code} - {error_message.message}")
 
+    @staticmethod
+    def get_retry_time_seconds(email: Email) -> int:
+        """
+        Gets the time we should wait for before attempting to re-try sending the email to Notify.
+        This is based on the retry_count of the email and increases exponentially up to a cap of every two hours.
+        """
+        if email.retry_count not in range(1, Config.MAX_RETRIES):
+            # This should never be reached, however, if retry_count is not an expected value
+            # we return 300, which causes retry the email again in 5 minutes.
+            return 300
+
+        MAX_RETRY_TIME_SECONDS = 2 * 60 * 60
+
+        retry_time = 5 * (2**email.retry_count)  # 10, 20, 40, 80, 160, 320, 640, 1280, 2560, 5120
+
+        return retry_time if retry_time < MAX_RETRY_TIME_SECONDS else MAX_RETRY_TIME_SECONDS
+
 
 @app.task(bind=True, base=EmailTask)
 def email_task(self, email: Email):
