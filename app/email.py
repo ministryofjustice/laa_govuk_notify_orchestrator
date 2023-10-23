@@ -23,4 +23,4 @@ class Email(EmailRequest):
         )
 
     def send_email(self):
-        NotifyClient().send_email(self.email_address, self.template_id, self.personalisation)
+        return NotifyClient().send_email(self.email_address, self.template_id, self.personalisation)
