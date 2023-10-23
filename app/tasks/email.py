@@ -42,7 +42,7 @@ class EmailTask(app.Task):
             # we return 300, which causes retry the email again in 5 minutes.
             return 300
 
-        MAX_RETRY_TIME_SECONDS = 2 * 60 * 60
+        MAX_RETRY_TIME_SECONDS = 7200  # 2 Hours
 
         retry_time = 5 * (2**email.retry_count)  # 10, 20, 40, 80, 160, 320, 640, 1280, 2560, 5120
 
