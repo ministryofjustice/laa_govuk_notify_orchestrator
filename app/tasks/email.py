@@ -15,7 +15,7 @@ class EmailTask(app.Task):
         With 32 retries the email will only be lost if we are unable to get a response after ~24 hours.
         """
         email.retry_count += 1
-        raise self.retry(exc=exception, countdown=email.get_retry_time_seconds(), max_retries=Config.MAX_RETRIES)
+        raise self.retry(exc=exception, countdown=self.get_retry_time_seconds(email), max_retries=Config.MAX_RETRIES)
 
     @staticmethod
     def log_error_message(exception: Exception):

@@ -12,7 +12,6 @@ class NotifyClient:
     def __new__(self):
         if self._instance is None:
             self._instance = super(NotifyClient, self).__new__(self)
-            self.notify_client = None
             self.notify_client = NotificationsAPIClient(Config.GOVUK_NOTIFY_API_KEY)
         return self._instance
 
