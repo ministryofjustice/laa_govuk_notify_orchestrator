@@ -1,5 +1,3 @@
-import logging
-
 from app.tasks.email import EmailTask
 from notifications_python_client.errors import HTTPError
 from requests.models import Response
