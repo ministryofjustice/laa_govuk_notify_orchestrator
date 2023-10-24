@@ -35,11 +35,15 @@ class BaseConfig:
     # Used for AWS SQS, every message must have a group
     MESSAGE_GROUP_ID = "EmailQueue"
 
+    ENVIRONMENT = os.environ.get("CLA_ENVIRONMENT", "production")
+
     # If testing mode is enabled then the endpoint will not attempt to place the email on the queue
     TESTING_MODE = os.environ.get("TESTING_MODE") == "True"
 
     # Limits the number of retries, 32 Retries means the email will be lost if after 24 hours we are still unable to get a response
     MAX_RETRIES = os.environ.get("MAX_RETRIES", 32)
+
+    SENTRY_DSN = os.environ.get("SENTRY_DSN")
 
     try:
         QUEUE_NAME = os.environ["QUEUE_NAME"]

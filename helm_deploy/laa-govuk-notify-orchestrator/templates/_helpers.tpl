@@ -62,6 +62,8 @@ Create the name of the service account to use
 {{- end }}
 
 {{- define "laa-govuk-notify-orchestrator.app.vars" -}}
+- name: CLA_ENVIRONMENT
+  value: {{.Values.environment}}
 {{ range $name, $data := .Values.envVars }}
 - name: {{ $name }}
 {{- if $data.value }}
