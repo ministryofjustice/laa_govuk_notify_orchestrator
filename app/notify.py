@@ -10,6 +10,10 @@ class NotifyClient:
     _instance = None
 
     def __new__(self):
+        """
+        This ensures that the NotifyClient is generated as a singleton.
+        This means only one NotifyClient can exist at a time.
+        """
         if self._instance is None:
             self._instance = super(NotifyClient, self).__new__(self)
             self.notify_client = NotificationsAPIClient(Config.GOVUK_NOTIFY_API_KEY)
