@@ -20,3 +20,5 @@ email-validator==2.0.0.post2
 httpx==0.25.0
 
 notifications_python_client==8.1.0
+
+sentry-sdk[fastapi]==1.32.0

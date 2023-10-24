@@ -68,6 +68,10 @@ envVars:
     configmap:
       name: notify-orchestrator-config
       key: max-retries
+  SENTRY_DSN:
+    secret:
+      name: sentry
+      key: dsn
 
 resources: {}
 
