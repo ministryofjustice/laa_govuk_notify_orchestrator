@@ -39,7 +39,6 @@ class EmailTask(app.Task):
             except KeyError:
                 message = f"{error}"
             log_method(f"Notify error: {exception.status_code} - {message}")
-            
 
     @staticmethod
     def get_retry_time_seconds(email: Email) -> int:
@@ -54,7 +53,7 @@ class EmailTask(app.Task):
 
         MAX_RETRY_TIME_SECONDS = 7200  # 2 Hours
 
-        retry_time = 5 * (2**email.retry_count)  # 10, 20, 40, 80, 160, 320, 640, 1280, 2560, 5120
+        retry_time = 5 * (2 ** email.retry_count)  # 10, 20, 40, 80, 160, 320, 640, 1280, 2560, 5120
 
         return retry_time if retry_time < MAX_RETRY_TIME_SECONDS else MAX_RETRY_TIME_SECONDS
 
