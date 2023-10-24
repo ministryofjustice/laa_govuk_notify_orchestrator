@@ -39,6 +39,7 @@ class EmailTask(app.Task):
             except KeyError:
                 message = f"{error}"
             log_method(f"Notify error: {exception.status_code} - {message}")
+            
 
     @staticmethod
     def get_retry_time_seconds(email: Email) -> int:

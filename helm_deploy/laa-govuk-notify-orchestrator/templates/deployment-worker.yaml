@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "laa-govuk-notify-orchestrator.fullname" . }}-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "laa-govuk-notify-orchestrator.fullname" . }}-worker
+  template:
+    metadata:
+      labels:
+        app: {{ include "laa-govuk-notify-orchestrator.fullname" . }}-worker
+    spec:
+      serviceAccountName: {{ include "laa-govuk-notify-orchestrator.serviceAccountName" . }}
+      containers:
+        - name: {{ include "laa-govuk-notify-orchestrator.fullname" . }}-worker
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args: ["bin/run_worker.sh"]
+          env:
+            {{ include "laa-govuk-notify-orchestrator.app.vars" . | nindent 12 }}

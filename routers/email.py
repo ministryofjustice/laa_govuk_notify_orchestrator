@@ -40,7 +40,8 @@ async def send_email(email_request: EmailRequest):
 
     try:
         email_task.apply_async((email,), **message_properties)
-        return {"status": "ok", "message": "Email created succesfully."}
+        return {"status": "ok", "message": "Email created successfully."}
+      
     except OperationalError:
         raise OperationalError("Please ensure your Message Queue environment variables are set correctly.")
     return
