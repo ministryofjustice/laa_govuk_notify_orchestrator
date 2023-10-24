@@ -9,7 +9,6 @@ def create_celery():
     celery_app.conf.update(task_serializer="pickle")
     celery_app.conf.update(result_serializer="pickle")
     celery_app.conf.update(accept_content=["pickle", "json"])
-    celery_app.conf.update(result_expires=200)
     celery_app.conf.update(result_persistent=True)
     celery_app.conf.update(worker_send_task_events=False)
     celery_app.conf.update(worker_prefetch_multiplier=1)
@@ -17,6 +16,5 @@ def create_celery():
     celery_app.conf.update(
         broker_transport_options={"predefined_queues": {Config.QUEUE_NAME: {"url": Config.QUEUE_URL}}}
     )
-    celery_app.autodiscover_tasks(["app.tasks"])
 
     return celery_app

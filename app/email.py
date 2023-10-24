@@ -1,10 +1,12 @@
 from datetime import datetime
 from models.request_models.email import Email as EmailRequest
+from app.notify import NotifyClient
 
 
 class Email(EmailRequest):
     """
     This is the Email model, which defines what an email object on the message queue looks like.
+    It is initalised based upon an EmailRequest, which defines the structure of an incoming payload.
     """
 
     origin_time: datetime = None
@@ -19,3 +21,6 @@ class Email(EmailRequest):
             template_id=email_request.template_id,
             personalisation=email_request.personalisation,
         )
+
+    def send_email(self):
+        return NotifyClient().send_email(self.email_address, self.template_id, self.personalisation)

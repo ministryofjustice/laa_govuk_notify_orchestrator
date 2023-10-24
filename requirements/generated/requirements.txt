@@ -28,8 +28,11 @@ certifi==2023.7.22
     # via
     #   httpcore
     #   httpx
+    #   requests
 cfgv==3.4.0
     # via pre-commit
+charset-normalizer==3.3.0
+    # via requests
 click==8.1.7
     # via
     #   celery
@@ -47,6 +50,8 @@ distlib==0.3.7
     # via virtualenv
 dnspython==2.4.2
     # via email-validator
+docopt==0.6.2
+    # via notifications-python-client
 email-validator==2.0.0.post2
     # via -r requirements/source/requirements.in
 fastapi==0.103.1
@@ -68,6 +73,7 @@ idna==3.4
     #   anyio
     #   email-validator
     #   httpx
+    #   requests
 iniconfig==2.0.0
     # via pytest
 jmespath==1.0.1
@@ -78,6 +84,8 @@ kombu==5.3.2
     # via celery
 nodeenv==1.8.0
     # via pre-commit
+notifications-python-client==8.1.0
+    # via -r requirements/source/requirements.in
 packaging==23.1
     # via pytest
 platformdirs==3.11.0
@@ -94,6 +102,8 @@ pydantic==2.3.0
     # via fastapi
 pydantic-core==2.6.3
     # via pydantic
+pyjwt==2.8.0
+    # via notifications-python-client
 pytest==7.4.2
     # via -r requirements/source/requirements.in
 python-dateutil==2.8.2
@@ -104,6 +114,8 @@ python-dotenv==1.0.0
     # via -r requirements/source/requirements.in
 pyyaml==6.0.1
     # via pre-commit
+requests==2.31.0
+    # via notifications-python-client
 s3transfer==0.7.0
     # via boto3
 six==1.16.0
@@ -123,7 +135,9 @@ typing-extensions==4.7.1
 tzdata==2023.3
     # via celery
 urllib3==1.26.17
-    # via botocore
+    # via
+    #   botocore
+    #   requests
 uvicorn==0.23.2
     # via -r requirements/source/requirements.in
 vine==5.0.0

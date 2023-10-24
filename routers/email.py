@@ -1,8 +1,8 @@
 from config import Config
 from fastapi.routing import APIRouter
+from app.tasks.email import email_task
 from models.request_models.email import Email as EmailRequest
-from models.email import Email
-from app.tasks.tasks import email_task
+from app.email import Email
 from routers.docs.email_router import EmailRouter
 from utils.deduplication import get_deduplication_id
 from datetime import datetime
@@ -40,6 +40,7 @@ async def send_email(email_request: EmailRequest):
 
     try:
         email_task.apply_async((email,), **message_properties)
+        return {"status": "ok", "message": "Email created successfully."}
     except OperationalError:
         raise OperationalError("Please ensure your Message Queue environment variables are set correctly.")
     return

@@ -38,6 +38,9 @@ class BaseConfig:
     # If testing mode is enabled then the endpoint will not attempt to place the email on the queue
     TESTING_MODE = os.environ.get("TESTING_MODE") == "True"
 
+    # Limits the number of retries, 32 Retries means the email will be lost if after 24 hours we are still unable to get a response
+    MAX_RETRIES = os.environ.get("MAX_RETRIES", 32)
+
     try:
         QUEUE_NAME = os.environ["QUEUE_NAME"]
     except KeyError as e:
@@ -60,3 +63,17 @@ class BaseConfig:
         if not TESTING_MODE:
             raise EnvironmentError(f"{e}{environment_exception_message}")
         CELERY_BROKER_URL = ""
+
+    try:
+        GOVUK_NOTIFY_API_KEY = os.environ["GOVUK_NOTIFY_API_KEY"]
+    except KeyError as e:
+        if not TESTING_MODE:
+            raise EnvironmentError(f"{e}{environment_exception_message}")
+
+    if TESTING_MODE:
+        # If we are performing integration tests on the service then we need to ensure we are using a testing api_key
+        # This is optional as unit tests should not require an API key.
+        GOVUK_NOTIFY_API_KEY = os.environ.get("GOVUK_NOTIFY_API_TESTING_KEY", "Test notify API key not defined")
+        if "test" not in GOVUK_NOTIFY_API_KEY.lower():
+            # This is a sanity check as a precaution. Notify does not provide a method of validating the type of an API key.
+            raise EnvironmentError("GOVUK_NOTIFY_API_TESTING_KEY is not a valid test API key.")

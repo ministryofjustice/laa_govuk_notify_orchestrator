@@ -1,8 +1,8 @@
 class TestData:
     valid_email_request = {
         "email_address": "simulate-delivered@notifications.service.gov.uk",
-        "template_id": "12345",
-        "personalisation": {},
+        "template_id": "382cc41c-b81d-4197-8819-2ad76522d03d",
+        "personalisation": {"full_name": "Test", "case_reference": "Reference"},
     }
 
     invalid_email_address = {
