@@ -1,4 +1,4 @@
-FROM python:3.11.5-alpine3.18
+FROM python:3.12.0-alpine3.18
 
 ENV CURL_VERSION=7.86.0
 ENV PYCURL_SSL_LIBRARY=openssl
