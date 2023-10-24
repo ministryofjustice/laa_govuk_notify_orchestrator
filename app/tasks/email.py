@@ -1,7 +1,7 @@
 from celery import current_app as app
 from config import Config
 from app.email import Email
-from notifications_python_client.errors import HTTPError
+from notifications_python_client.errors import HTTPError, TokenError
 import logging
 
 logger = logging.getLogger("uvicorn")
@@ -19,6 +19,10 @@ class EmailTask(app.Task):
 
     @staticmethod
     def log_error_message(exception: Exception):
+        if isinstance(exception, TokenError):
+            logger.critical(f"Notify error: {exception.__class__.__name__} - {exception.message}")
+            return
+
         if not isinstance(exception, HTTPError):
             logger.error(f"Notify error: {exception.__class__.__name__} - {exception}")
             return
