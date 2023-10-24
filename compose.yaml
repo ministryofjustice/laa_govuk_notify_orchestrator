@@ -18,6 +18,9 @@ services:
       - AWS_WEB_IDENTITY_TOKEN_FILE=${AWS_WEB_IDENTITY_TOKEN_FILE:-Get this from kubernetes}
       - QUEUE_NAME=${QUEUE_NAME:-celery}
       - QUEUE_URL=${QUEUE_URL:-amqp://guest:guest@rabbitmq:5672/}
+      - GOVUK_NOTIFY_API_KEY=${GOVUK_NOTIFY_API_KEY:-Generate a key}
+      - GOVUK_NOTIFY_API_TESTING_KEY=${GOVUK_NOTIFY_API_TESTING_KEY:Generate a test key}
+      - MAX_RETRIES=${MAX_RETRIES:-32}
     depends_on:
       rabbitmq:
         condition: "service_healthy"
