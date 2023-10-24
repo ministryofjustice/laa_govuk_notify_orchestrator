@@ -56,6 +56,18 @@ envVars:
     secret:
       name: sqs
       key: sqs_id
+  GOVUK_NOTIFY_API_KEY:
+    secret:
+      name: govuk-notify
+      key: api-key
+  GOVUK_NOTIFY_API_TESTING_KEY:
+    secret:
+      name: govuk-notify
+      key: test-api-key
+  MAX_RETRIES:
+    configmap:
+      name: notify-orchestrator-config
+      key: max-retries
   SENTRY_DSN:
     secret:
       name: sentry
