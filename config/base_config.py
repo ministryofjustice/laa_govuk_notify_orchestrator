@@ -45,7 +45,7 @@ class BaseConfig:
     try:
         MAX_RETRIES = int(MAX_RETRIES)
     except TypeError as e:
-        raise TypeError(f"MAX_RETRIES could not be interepreted as an integer, {e}")
+        raise TypeError(f"MAX_RETRIES could not be interpreted as an integer, {e}")
 
     SENTRY_DSN = os.environ.get("SENTRY_DSN")
 
