@@ -1,7 +1,7 @@
 from celery import current_app as app
 from config import Config
 from app.email import Email
-from notifications_python_client.errors import HTTPError
+from notifications_python_client.errors import HTTPError, TokenError
 import logging
 
 logger = logging.getLogger("uvicorn")
@@ -19,17 +19,26 @@ class EmailTask(app.Task):
 
     @staticmethod
     def log_error_message(exception: Exception):
-        if not isinstance(exception, HTTPError):
-            logger.error(exception)
+        if isinstance(exception, TokenError):
+            logger.critical(f"Notify error: {exception.__class__.__name__} - {exception.message}")
             return
 
-        for error_message in exception.message:
+        if not isinstance(exception, HTTPError):
+            logger.error(f"Notify error: {exception.__class__.__name__} - {exception}")
+            return
+
+        log_method = logger.critical if exception.status_code in range(400, 499) else logger.error
+
+        if isinstance(exception.message, str):
+            log_method(f"Notify error: {exception.status_code} - {exception.message}")
+            return
+
+        for error in exception.message:
             try:
-                logger.error(
-                    f"Notify error: {exception.status_code} - {error_message['error']}: {error_message['message']}"
-                )
+                message = f"{error['error']}: {error['message']}"
             except KeyError:
-                logger.error(f"Notify error: {exception.status_code} - {error_message.message}")
+                message = f"{error}"
+            log_method(f"Notify error: {exception.status_code} - {message}")
 
     @staticmethod
     def get_retry_time_seconds(email: Email) -> int:
@@ -44,7 +53,7 @@ class EmailTask(app.Task):
 
         MAX_RETRY_TIME_SECONDS = 7200  # 2 Hours
 
-        retry_time = 5 * (2**email.retry_count)  # 10, 20, 40, 80, 160, 320, 640, 1280, 2560, 5120
+        retry_time = 5 * (2 ** email.retry_count)  # 10, 20, 40, 80, 160, 320, 640, 1280, 2560, 5120
 
         return retry_time if retry_time < MAX_RETRY_TIME_SECONDS else MAX_RETRY_TIME_SECONDS
 
