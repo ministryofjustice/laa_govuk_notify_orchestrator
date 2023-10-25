@@ -42,6 +42,10 @@ class BaseConfig:
 
     # Limits the number of retries, 32 Retries means the email will be lost if after 24 hours we are still unable to get a response
     MAX_RETRIES = os.environ.get("MAX_RETRIES", 32)
+    try:
+        MAX_RETRIES = int(MAX_RETRIES)
+    except TypeError as e:
+        raise TypeError(f"MAX_RETRIES could not be interepreted as an integer, {e}")
 
     SENTRY_DSN = os.environ.get("SENTRY_DSN")
 
