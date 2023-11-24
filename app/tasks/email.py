@@ -1,8 +1,8 @@
 from celery import current_app as app
 from config import Config
 from app.email import Email
-import datetime as dt
 from notifications_python_client.errors import HTTPError, TokenError, APIError
+import datetime as dt
 import logging
 
 logger = logging.getLogger("uvicorn")
@@ -65,12 +65,12 @@ class EmailTask(app.Task):
     def rate_limit_exceeded(self) -> bool:
         """
         This is a getter to check if the rate limit has been exceeded.
-        If the rate limit was exceeded on a previous day then it will also return False.
+        If the rate limit was exceeded on a previous day then it will return False.
         """
         if EmailTask._datetime_rate_limit_resets is None:
             return False
         if dt.datetime.now() > EmailTask._datetime_rate_limit_resets:
-            EmailTask._datetime_rate_limit_resets = None
+            self.rate_limit_exceeded = False
             return False
         return True
 
@@ -93,7 +93,7 @@ class EmailTask(app.Task):
             return False
         try:
             return exception.status_code in RATE_LIMIT_ERROR_CODES
-        except KeyError:
+        except AttributeError:
             return False
 
     @staticmethod
