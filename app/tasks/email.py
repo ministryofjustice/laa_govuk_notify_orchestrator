@@ -101,9 +101,9 @@ class EmailTask(app.Task):
         """
         GOV.UK Notify's rate limiter resets at midnight, this will get the datetime of the next reset.
         """
-        now = dt.datetime.now()
+        today = dt.datetime.now().date()
         midnight = dt.datetime.min.time()
-        today_midnight = dt.datetime.combine(now, midnight)
+        today_midnight = dt.datetime.combine(date=today, time=midnight)
         return today_midnight + dt.timedelta(days=1)
 
 
