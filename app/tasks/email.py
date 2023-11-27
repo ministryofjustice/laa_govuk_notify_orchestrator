@@ -75,12 +75,14 @@ class EmailTask(app.Task):
         return True
 
     @rate_limit_exceeded.setter
-    def rate_limit_exceeded(self, value: bool):
+    def rate_limit_exceeded(self, is_exceeded: bool):
         """
         If the rate limit has deemed to be exceeded _datetime_rate_limit_resets will be set to the next rate limit reset time.
         Else will be set to None, indicating the rate limit has not been reached.
         """
-        EmailTask._datetime_rate_limit_resets = EmailTask.get_datetime_of_next_rate_limit_reset() if value else None
+        EmailTask._datetime_rate_limit_resets = (
+            EmailTask.get_datetime_of_next_rate_limit_reset() if is_exceeded else None
+        )
 
     @staticmethod
     def is_rate_limit_exception(exception: Exception) -> bool:
