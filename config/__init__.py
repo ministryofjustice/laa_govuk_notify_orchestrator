@@ -3,7 +3,7 @@ from .dev_config import DevConfig
 from .staging_config import StagingConfig
 from .prod_config import ProductionConfig
 
-current_environment = os.environ.get("ENV", "development")
+current_environment = os.environ.get("CLA_ENVIRONMENT", "development")
 
 Config = (
     ProductionConfig
