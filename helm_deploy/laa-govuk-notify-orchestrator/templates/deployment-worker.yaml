@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: {{ include "laa-govuk-notify-orchestrator.fullname" . }}-worker
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicas.worker }}
   selector:
     matchLabels:
       app: {{ include "laa-govuk-notify-orchestrator.fullname" . }}-worker
