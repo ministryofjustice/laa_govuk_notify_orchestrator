@@ -1,0 +1,22 @@
+name: Gajira
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  gajira:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if pull request was created by Snyk
+        if: ${{ github.event.pull_request.labels.*.name == 'snyk' }}
+        run: echo "Pull request was created by Snyk"
+
+      - name: Create Jira ticket
+        if: ${{ github.event.pull_request.labels.*.name == 'snyk' }}
+        uses: vdesabou/gajira-action@v2
+        with:
+          host: ${{ secrets.JIRA_HOST }}
+          user: ${{ secrets.JIRA_USER }}
+          token: ${{ secrets.JIRA_TOKEN }}
+          issueKeys: "SNYKISSUE"
