@@ -1,0 +1,32 @@
+name: Gajira
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  gajira:
+    name: Transition Issue
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check if pull request was created by Snyk
+      if: ${{ !contains(github.event.pull_request.labels, 'snyk') }}
+      run: |
+        echo "Pull request not created by Snyk"
+        exit 0
+
+    - name: Login
+      uses: atlassian/gajira-login@master
+      env:
+        JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+        JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+        JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+
+    - name: Create
+      id: create
+      uses: atlassian/gajira-create@master
+      with:
+          project: LGA
+          issuetype: Task
+          summary: ${{ github.event.pull_request.title }}
+          description: ${{ github.event.pull_request.body }}
