@@ -10,11 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Check if pull request was created by Snyk
-      if: ${{ github.event.pull_request.labels.*.name == 'snyk' }}
-      run: echo "Pull request was created by Snyk"
+      if: ${{ !contains(github.event.pull_request.labels, 'snyk') }}
+      run: |
+        echo "Pull request not created by Snyk"
+        exit 0
 
     - name: Login
-      if: ${{ github.event.pull_request.labels.*.name == 'snyk' }}
       uses: atlassian/gajira-login@master
       env:
         JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
@@ -23,9 +24,12 @@ jobs:
 
     - name: Create
       id: create
-      uses: atlassian/gajira-create@v3
+      uses: atlassian/gajira-create@master
       with:
           host: ${{ secrets.JIRA_HOST }}
           user: ${{ secrets.JIRA_USER }}
           token: ${{ secrets.JIRA_TOKEN }}
-          issueKeys: "SNYKISSUE"
+          project: LGA
+          issuetype: Task
+          summary: ${{ github.event.pull_request.title }}
+          description: ${{ github.event.pull_request.body }}
