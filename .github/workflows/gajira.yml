@@ -26,9 +26,6 @@ jobs:
       id: create
       uses: atlassian/gajira-create@master
       with:
-          host: ${{ secrets.JIRA_HOST }}
-          user: ${{ secrets.JIRA_USER }}
-          token: ${{ secrets.JIRA_TOKEN }}
           project: LGA
           issuetype: Task
           summary: ${{ github.event.pull_request.title }}
