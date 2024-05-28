@@ -22,12 +22,19 @@ jobs:
         JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
         JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
 
-    - name: Strip HTML from PR body
-      id: strip_html
+    - name: Process PR data
+      id: process_pr_data
       run: |
+        # Extract repository name
+        repo_name=$(basename "$GITHUB_REPOSITORY")
+
+        # Strip HTML from PR body
         pr_body="${{ github.event.pull_request.body }}"
-        stripped_body=$(echo "$pr_body" | awk 'BEGIN{RS="<[^>]*>"; ORS=""}1')
-        echo "::set-output name=stripped_body::$stripped_body"
+        stripped_body=$(echo "$pr_body" | sed 's/<[^>]*>//g')
+
+        # Set outputs
+        echo "repo_name=$repo_name" >> $GITHUB_ENV
+        echo "stripped_body=$stripped_body" >> $GITHUB_ENV
 
     - name: Create
       id: create
@@ -35,5 +42,5 @@ jobs:
       with:
           project: LGA
           issuetype: Task
-          summary: ${{ github.repository.split('/')[1] }} - ${{ github.event.pull_request.title }}
-          description: ${{ steps.strip_html.outputs.stripped_body }}
+          summary: ${{ env.repo_name }} - ${{ github.event.pull_request.title }}
+          description: ${{ env.stripped_body }}
