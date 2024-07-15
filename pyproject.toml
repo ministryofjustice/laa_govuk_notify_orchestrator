@@ -9,7 +9,7 @@ dynamic = ["dependencies", "optional-dependencies"]
 
 [tool.setuptools.dynamic]
 dependencies = { file = ["requirements/generated/requirements.txt"] }
-dependencies.linting = { file = ["requirements/generated/requirements-linting.txt"] }
+optional-dependencies = { file = ["requirements/generated/requirements-linting.txt"] }
 
 [tool.black]
 line-length = 119
