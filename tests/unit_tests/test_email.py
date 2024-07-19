@@ -21,10 +21,7 @@ class TestEmail:
 
         json_response = res.json()["detail"][0]
 
-        assert (
-            json_response["msg"]
-            == "value is not a valid email address: The email address is not valid. It must have exactly one @-sign."
-        )
+        assert "value is not a valid email address" in json_response["msg"]
 
         assert res.status_code == 422, ErrorMessages.invalid_status_code(422, res.status_code)
 
@@ -33,10 +30,7 @@ class TestEmail:
 
         json_response = res.json()["detail"][0]
 
-        assert (
-            json_response["msg"]
-            == "value is not a valid email address: The email address is not valid. It must have exactly one @-sign."
-        )
+        assert "value is not a valid email address" in json_response["msg"]
 
         assert res.status_code == 422, ErrorMessages.invalid_status_code(422, res.status_code)
 

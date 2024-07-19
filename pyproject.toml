@@ -1,3 +1,16 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+requires-python = ">=3.12"
+name = "laa-govuk-notify-orchestrator"
+dynamic = ["dependencies", "optional-dependencies"]
+
+[tool.setuptools.dynamic]
+dependencies = { file = ["requirements/generated/requirements.txt"] }
+optional-dependencies = { file = ["requirements/generated/requirements-linting.txt"] }
+
 [tool.black]
 line-length = 119
 verbose = true

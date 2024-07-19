@@ -8,7 +8,9 @@ class TestLogErrorMessage:
         error = TokenError(message="Token error message", token="Token")
         EmailTask.log_error_message(error)
         assert "CRITICAL" in caplog.text
-        assert "Notify error: TokenError - Token error message. See our requirements for JSON Web Tokens" in caplog.text
+        assert (
+            "Notify error: TokenError - Token error message. See our requirements for JSON Web Tokens" in caplog.text
+        )
 
     def test_http_error_4xx(self, caplog):
         response = Response()
@@ -16,7 +18,7 @@ class TestLogErrorMessage:
         error = HTTPError(response=response, message="Internal server error")
         EmailTask.log_error_message(error)
         assert "CRITICAL" in caplog.text
-        assert 'Notify error: 403 - Internal server error' in caplog.text
+        assert "Notify error: 403 - Internal server error" in caplog.text
 
     def test_http_error_5xx(self, caplog):
         response = Response()
@@ -24,7 +26,7 @@ class TestLogErrorMessage:
         error = HTTPError(response=response, message="Internal server error")
         EmailTask.log_error_message(error)
         assert "ERROR" in caplog.text
-        assert 'Notify error: 500 - Internal server error' in caplog.text
+        assert "Notify error: 500 - Internal server error" in caplog.text
 
     def test_http_503_error(self, caplog):
         response = Response()
