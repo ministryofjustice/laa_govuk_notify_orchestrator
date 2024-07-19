@@ -50,7 +50,7 @@ click-repl==0.3.0
     # via celery
 distlib==0.3.7
     # via virtualenv
-dnspython==2.4.2
+dnspython==2.6.1
     # via email-validator
 docopt==0.6.2
     # via notifications-python-client
