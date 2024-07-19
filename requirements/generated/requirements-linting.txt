@@ -4,7 +4,7 @@
 #
 #    pip-compile --output-file=requirements/generated/requirements-linting.txt requirements/source/requirements-linting.in
 #
-black==23.9.1
+black==24.3.0
     # via -r requirements/source/requirements-linting.in
 click==8.1.7
     # via black
