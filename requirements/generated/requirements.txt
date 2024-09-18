@@ -24,7 +24,7 @@ botocore==1.35.21
     #   s3transfer
 celery==5.4.0
     # via -r requirements/source/requirements.in
-certifi==2023.7.22
+certifi==2024.7.4
     # via
     #   httpcore
     #   httpx
@@ -127,7 +127,7 @@ python-dotenv==1.0.0
     # via -r requirements/source/requirements.in
 pyyaml==6.0.1
     # via pre-commit
-requests==2.31.0
+requests==2.32.2
     # via notifications-python-client
 s3transfer==0.10.2
     # via boto3
@@ -148,7 +148,7 @@ typing-extensions==4.8.0
     #   pydantic-core
 tzdata==2023.3
     # via celery
-urllib3==2.0.7
+urllib3==2.2.2
     # via
     #   botocore
     #   requests
@@ -171,3 +171,4 @@ zope-interface==6.1
 
 # The following packages are considered to be unsafe in a requirements file:
 # setuptools
+zipp>=3.19.1 # not directly required, pinned by Snyk to avoid a vulnerability
