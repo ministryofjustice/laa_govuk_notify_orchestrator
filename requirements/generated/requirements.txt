@@ -8,8 +8,9 @@ amqp==5.1.1
     # via kombu
 annotated-types==0.6.0
     # via pydantic
-anyio==3.7.1
+anyio==4.4.0
     # via
+    #   -r requirements/source/requirements.in
     #   httpx
     #   starlette
 billiard==4.2.0
@@ -78,8 +79,9 @@ httpx==0.27.2
     # via -r requirements/source/requirements.in
 identify==2.5.30
     # via pre-commit
-idna==3.4
+idna==3.10
     # via
+    #   -r requirements/source/requirements.in
     #   anyio
     #   email-validator
     #   httpx
