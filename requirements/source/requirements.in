@@ -1,9 +1,17 @@
-boto3==1.34.144
-botocore==1.34.144
+anyio>=4.4.0
+
+boto3==1.35.21
+botocore==1.35.21
 
 celery==5.4.0
 
-fastapi==0.111.1
+dnspython>=2.6.1
+
+idna>=3.10
+
+fastapi==0.115.0
+
+httpx==0.27.2
 
 pre-commit==3.7.1
 
@@ -13,11 +21,11 @@ pytest==7.4.4
 
 python-dotenv==1.0.0
 
-uvicorn==0.30.1
+uvicorn==0.30.6
 
-email-validator==2.2.0
+email-validator>=2.2.0
 
-notifications_python_client==9.1.0
+notifications_python_client==10.0.0
 
 sentry-sdk[fastapi]==2.9.0
 

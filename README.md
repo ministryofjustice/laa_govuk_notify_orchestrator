@@ -12,18 +12,18 @@ This is the API used for Email orchestration between CLA services and GOV.UK Not
 git clone https://github.com/ministryofjustice/laa_govuk_notify_orchestrator.git
 ```
 
-#### 2) Ensure you have the correct Python3 version (3.11)
+#### 2) Ensure you have the correct Python3 version (3.12)
 
 ```
 python3 --version
 ```
 
-If this is below 3.11 please ensure you have installed python3.11 somewhere on your system.
+If this is below 3.12 please ensure you have installed python3.12 somewhere on your system.
 
 #### 3) Setup and activate a Python virtual environment
 
 ```
-python3.11 -m venv env --prompt=\(notify_api\)
+python3 -m venv env --prompt=\(notify_api\)
 
 source env/bin/activate
 ```
@@ -36,7 +36,7 @@ python --version
 pip --version
 ```
 
-Ensure both state 'Python 3.11'
+Ensure both state 'Python 3.12'
 
 #### 4) Update pip and install the required Python dependencies
 
