@@ -69,7 +69,7 @@ gevent==24.2.1
     # via -r requirements/source/requirements.in
 greenlet==3.0.1
     # via gevent
-h11==0.14.0
+h11==0.16.0
     # via
     #   httpcore
     #   uvicorn
