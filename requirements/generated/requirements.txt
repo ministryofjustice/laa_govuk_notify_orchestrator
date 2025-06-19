@@ -148,7 +148,7 @@ typing-extensions==4.8.0
     #   pydantic-core
 tzdata==2023.3
     # via celery
-urllib3==2.2.2
+urllib3==2.5.0
     # via
     #   botocore
     #   requests
