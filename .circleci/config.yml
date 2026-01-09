@@ -87,14 +87,14 @@ jobs:
 
   lint:
     docker:
-      - image: cimg/python:3.12
+      - image: cimg/python:3.11
     resource_class: small
     steps:
       - checkout
       - run:
           name: Setup Python environment
           command: |
-            python3.12 -m venv env --prompt=\(linting\)
+            python3.11 -m venv env --prompt=\(linting\)
 
       - restore_cache:
           keys:
@@ -121,7 +121,7 @@ jobs:
 
   unit_test:
     docker:
-      - image: cimg/python:3.12
+      - image: cimg/python:3.11
     environment:
       TESTING_MODE: "True"
     resource_class: small
@@ -130,7 +130,7 @@ jobs:
       - run:
           name: Setup Python environment
           command: |
-            python3.12 -m venv env --prompt=\(unit_test\)
+            python3.11 -m venv env --prompt=\(unit_test\)
 
       - restore_cache:
           keys:
@@ -155,7 +155,7 @@ jobs:
 
   integration_test:
     docker:
-      - image: cimg/python:3.12
+      - image: cimg/python:3.11
     environment:
       TESTING_MODE: "True"
       resource_class: small
@@ -164,7 +164,7 @@ jobs:
       - run:
           name: Setup Python environment
           command: |
-            python3.12 -m venv env --prompt=\(unit_test\)
+            python3.11 -m venv env --prompt=\(unit_test\)
 
       - restore_cache:
           keys:
