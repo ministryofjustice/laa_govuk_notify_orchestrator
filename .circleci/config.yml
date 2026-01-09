@@ -3,9 +3,9 @@ version: 2.1
 
 orbs:
   slack: circleci/slack@3.4.2
-  aws-ecr: circleci/aws-ecr@9.8.1
-  aws-cli: circleci/aws-cli@5.1.2
-  
+  aws-cli: circleci/aws-cli@4.0.0 # use v4 of this orb
+  aws-ecr: circleci/aws-ecr@9.8.1 # this orb doesn't support OIDC v2, so we use aws-cli to authenticate
+
 executors:
   cloud-platform-executor:
     docker:
@@ -22,7 +22,9 @@ references:
 
 jobs:
   build:
-    executor: aws-ecr/default # use the aws-ecr/default executor to start the docker daemon
+    executor: 
+      name: aws-ecr/default # use the aws-ecr/default executor to start the docker daemon
+      image: ubuntu-2204:current  # override deprecated image
     steps:
       # Checkout your repository
       - checkout
