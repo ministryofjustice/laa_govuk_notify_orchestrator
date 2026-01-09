@@ -9,7 +9,7 @@ orbs:
 executors:
   cloud-platform-executor:
     docker:
-      - image: ministryofjustice/cloud-platform-tools:2.1
+      - image: ministryofjustice/cloud-platform-tools:2.3.0
 
 references:
   install_helm: &install_helm
@@ -88,7 +88,7 @@ jobs:
   lint:
     docker:
       - image: cimg/python:3.11
-    resource_class: medium
+    resource_class: small
     steps:
       - checkout
       - run:
@@ -124,7 +124,7 @@ jobs:
       - image: cimg/python:3.11
     environment:
       TESTING_MODE: "True"
-    resource_class: medium
+    resource_class: small
     steps:
       - checkout
       - run:
@@ -158,7 +158,7 @@ jobs:
       - image: cimg/python:3.11
     environment:
       TESTING_MODE: "True"
-      resource_class: medium
+      resource_class: small
     steps:
       - checkout
       - run:
