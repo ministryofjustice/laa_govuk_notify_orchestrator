@@ -4,7 +4,7 @@ version: 2.1
 orbs:
   slack: circleci/slack@3.4.2
   aws-cli: circleci/aws-cli@4.0.0 # use v4 of this orb
-  aws-ecr: circleci/aws-ecr@10.0.0   # use latest stable version
+  aws-ecr: circleci/aws-ecr@10.2.0
   
 executors:
   cloud-platform-executor:
@@ -23,7 +23,6 @@ references:
 jobs:
   build:
     executor: aws-ecr/default # use the aws-ecr/default executor to start the docker daemon
-    image: cimg/base:current   # Use the latest supported image
     steps:
       # Checkout your repository
       - checkout
