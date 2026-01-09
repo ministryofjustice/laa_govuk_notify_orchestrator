@@ -73,7 +73,7 @@ h11==0.16.0
     # via
     #   httpcore
     #   uvicorn
-httpcore==1.1.0
+httpcore==1.0.9
     # via httpx
 httpx==0.27.2
     # via -r requirements/source/requirements.in
