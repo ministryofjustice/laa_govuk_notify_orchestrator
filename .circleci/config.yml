@@ -88,7 +88,7 @@ jobs:
   lint:
     docker:
       - image: cimg/python:3.11
-    resource_class: small
+    resource_class: medium
     steps:
       - checkout
       - run:
