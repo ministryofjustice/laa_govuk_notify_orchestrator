@@ -175,3 +175,4 @@ zope-event==6.1
     # via gevent
 zope-interface==8.2
     # via gevent
+zipp>=3.19.1 # not directly required, pinned by Snyk to avoid a vulnerability
