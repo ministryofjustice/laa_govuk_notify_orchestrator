@@ -61,7 +61,7 @@ class TestTemplateID:
 
         json_response = res.json()["detail"][0]
 
-        assert json_response["msg"] == "String should have at least 1 characters"
+        assert json_response["msg"] == "String should have at least 1 character"
 
         assert res.status_code == 422, ErrorMessages.invalid_status_code(422, res.status_code)
 
