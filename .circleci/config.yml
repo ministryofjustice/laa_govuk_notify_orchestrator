@@ -35,11 +35,11 @@ jobs:
           name: Authenticate with AWS ECR
           command: aws ecr get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin ${AWS_ECR_REGISTRY_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com
       # Build and push your Docker image
-      - aws-ecr/build-image:
-          push-image: true
-          tag: ${CIRCLE_SHA1}
-          region: $ECR_REGION # this will use the env var
-          repo: $ECR_REPOSITORY # this will use the env var
+      - run:
+          name: Build and push Docker image
+          command: |
+            docker build -t ${AWS_ECR_REGISTRY_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com/${ECR_REPOSITORY}:${CIRCLE_SHA1} .
+            docker push ${AWS_ECR_REGISTRY_ID}.dkr.ecr.${ECR_REGION}.amazonaws.com/${ECR_REPOSITORY}:${CIRCLE_SHA1}
 
   image_security_scan:
     executor: aws-ecr/default # use the aws-ecr/default executor to start the docker daemon
