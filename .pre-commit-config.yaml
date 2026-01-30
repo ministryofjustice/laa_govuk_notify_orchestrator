@@ -1,6 +1,10 @@
 default_language_version:
   python: python3.12
 repos:
+  - repo: https://github.com/ministryofjustice/devsecops-hooks
+    rev: v1.3.0
+    hooks:
+      - id: baseline
   - repo: https://github.com/ambv/black
     rev: 23.9.1
     hooks:
@@ -18,9 +22,19 @@ repos:
         language_version: python3.12
         name: pip-compile requirements.in
         files: requirements(|lint).in
-        args: [requirements/source/requirements.in, "--output-file", requirements/generated/requirements.txt]
+        args:
+          [
+            requirements/source/requirements.in,
+            "--output-file",
+            requirements/generated/requirements.txt,
+          ]
       - id: pip-compile
         language_version: python3.12
         name: pip-compile requirements-linting.in
         files: requirements(|-lint).in
-        args: [requirements/source/requirements-linting.in, "--output-file", requirements/generated/requirements-linting.txt]
+        args:
+          [
+            requirements/source/requirements-linting.in,
+            "--output-file",
+            requirements/generated/requirements-linting.txt,
+          ]
