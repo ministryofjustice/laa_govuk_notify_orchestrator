@@ -116,7 +116,7 @@ pydantic==2.12.5
     # via fastapi
 pydantic-core==2.41.5
     # via pydantic
-pyjwt==2.10.1
+pyjwt==2.12.0
     # via notifications-python-client
 pytest==7.4.4
     # via -r requirements/source/requirements.in
