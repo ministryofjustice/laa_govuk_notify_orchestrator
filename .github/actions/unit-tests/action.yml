@@ -1,0 +1,15 @@
+name: Unit tests
+description: Run unit tests
+
+runs:
+  using: composite
+  steps:
+
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+    - uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405
+      with:
+        python-version: "3.12"
+        cache: 'pip' # caching pip dependencies
+    - name: Install requirements
+      run: pip install -r requirements/generated/requirements.txt
+      shell: bash
