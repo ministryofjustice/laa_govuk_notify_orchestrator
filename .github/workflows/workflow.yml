@@ -80,7 +80,7 @@ jobs:
         uses: ./.github/actions/deploy
         with:
           ecr_registry_url: ${{ secrets.ECR_REGISTRY_URL }}/${{ vars.ECR_REPOSITORY }}
-          ecr_image_tag: ${{ steps.branch-tag.outputs.tag }}
+          ecr_image_tag: ${{ needs.build.outputs.image_tag }}
           kube_cert:        ${{ secrets.KUBE_CERT }}
           kube_token:       ${{ secrets.KUBE_TOKEN }}
           kube_cluster:     ${{ secrets.KUBE_CLUSTER }}
