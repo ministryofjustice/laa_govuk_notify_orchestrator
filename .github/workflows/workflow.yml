@@ -85,4 +85,4 @@ jobs:
           kube_token:       ${{ secrets.KUBE_TOKEN }}
           kube_cluster:     ${{ secrets.KUBE_CLUSTER }}
           kube_namespace:   ${{ secrets.KUBE_NAMESPACE }}
-          app_environment:  staging
+          app_environment:  development
