@@ -3,12 +3,12 @@
 #### 1) Check you are using a Python virtual environment
 
 ```
-python3.11 -m venv env --prompt=\(notify_api\)
+python3.12 -m venv env --prompt=\(notify_api\)
 
 source env/bin/activate
 ```
 
-#### 2) Check you are using the correct Python/ Pip version (3.11)
+#### 2) Check you are using the correct Python/ Pip version (3.12)
 
 ```
 python --version
