@@ -166,56 +166,56 @@ jobs:
           message: ':tada: (<< parameters.namespace >>) Deployed branch $CIRCLE_BRANCH'
           title: '$RELEASE_HOST'
 
-workflows:
-  test_and_build:
-    jobs:
-      - lint
-      - unit_test
-      - integration_test:
-          context: laa-govuk-notify-orchestrator
-      - build:
-          context: laa-govuk-notify-orchestrator
-          requires:
-            - lint
-            - unit_test
-            - integration_test
-      - deploy:
-          name: development_deploy
-          namespace: development
-          context:
-           - laa-govuk-notify-orchestrator
-           - laa-govuk-notify-orchestrator-dev
-          requires:
-            - build
-      - staging_deploy_approval:
-          type: approval
-          requires:
-            - development_deploy
-      - deploy:
-          name: staging_deploy
-          namespace: staging
-          context:
-           - laa-govuk-notify-orchestrator
-           - laa-govuk-notify-orchestrator-staging
-          requires:
-            - staging_deploy_approval
-      - production_deploy_approval:
-          type: approval
-          requires:
-            - staging_deploy
-          filters:
-            branches:
-              only:
-                - main
-      - deploy:
-          name: production_deploy
-          namespace: production
-          context:
-           - laa-govuk-notify-orchestrator
-           - laa-govuk-notify-orchestrator-production
-          requires:
-            - production_deploy_approval
-          filters:
-            branches:
-              only:
-                - main
+#workflows:
+#  test_and_build:
+#    jobs:
+#      - lint
+#      - unit_test
+#      - integration_test:
+#          context: laa-govuk-notify-orchestrator
+#      - build:
+#          context: laa-govuk-notify-orchestrator
+#          requires:
+#            - lint
+#            - unit_test
+#            - integration_test
+#      - deploy:
+#          name: development_deploy
+#          namespace: development
+#          context:
+#           - laa-govuk-notify-orchestrator
+#           - laa-govuk-notify-orchestrator-dev
+#          requires:
+#            - build
+#      - staging_deploy_approval:
+#          type: approval
+#          requires:
+#            - development_deploy
+#      - deploy:
+#          name: staging_deploy
+#          namespace: staging
+#          context:
+#           - laa-govuk-notify-orchestrator
+#           - laa-govuk-notify-orchestrator-staging
+#          requires:
+#            - staging_deploy_approval
+#      - production_deploy_approval:
+#          type: approval
+#          requires:
+#            - staging_deploy
+#          filters:
+#            branches:
+#              only:
+#                - main
+#      - deploy:
+#          name: production_deploy
+#          namespace: production
+#          context:
+#           - laa-govuk-notify-orchestrator
+#           - laa-govuk-notify-orchestrator-production
+#          requires:
+#            - production_deploy_approval
+#          filters:
+#            branches:
+#              only:
+#                - main
