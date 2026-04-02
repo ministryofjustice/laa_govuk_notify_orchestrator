@@ -4,12 +4,16 @@ on:
   pull_request:
 
 jobs:
+
+# -------------------------------------------------- formatting and linting ---
   formatting-and-linting:
     name: "Formatting and linting"
     runs-on: ubuntu-latest
     steps:
         - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         - uses: ./.github/actions/linting-and-formatting
+
+# ---------------------------------------------------------------- test ------
   unit-tests:
     name: "Unit tests"
     runs-on: ubuntu-latest
@@ -17,6 +21,7 @@ jobs:
         - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         - uses: ./.github/actions/unit-tests
 
+# ---------------------------------------------------------- build (new) -----
   build:
     name: Build Docker Image
     runs-on: ubuntu-latest
@@ -69,6 +74,7 @@ jobs:
           dockerfile_path: Dockerfile
           image_tag:      ${{ steps.branch-tag.outputs.tag }}
 
+# --------------------------------------------------------- development-production ---
   deploy-development:
     name: Deploy (development)
     runs-on: ubuntu-latest
@@ -88,3 +94,47 @@ jobs:
           kube_cluster:     ${{ secrets.KUBE_CLUSTER }}
           kube_namespace:   ${{ secrets.KUBE_NAMESPACE }}
           app_environment:  development
+
+  # --------------------------------------------------------- staging-production ---
+  deploy-staging:
+    name: Deploy (staging)
+    runs-on: ubuntu-latest
+    needs: build
+    environment: staging
+    if: github.ref_name == 'main'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Deploy to staging with composite action
+        uses: ./.github/actions/deploy
+        with:
+          ecr_registry_url: ${{ secrets.ECR_REGISTRY_URL }}/${{ vars.ECR_REPOSITORY }}
+          ecr_image_tag: ${{ needs.build.outputs.image_tag }}
+          kube_cert:        ${{ secrets.KUBE_CERT }}
+          kube_token:       ${{ secrets.KUBE_TOKEN }}
+          kube_cluster:     ${{ secrets.KUBE_CLUSTER }}
+          kube_namespace:   ${{ secrets.KUBE_NAMESPACE }}
+          app_environment:  staging
+
+  # --------------------------------------------------------- deploy-production ---
+  deploy-production:
+    name: Deploy (production)
+    runs-on: ubuntu-latest
+    needs: build
+    environment: production
+    if: github.ref_name == 'main'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+
+      - name: Deploy to production with composite action
+        uses: ./.github/actions/deploy
+        with:
+          ecr_registry_url: ${{ secrets.ECR_REGISTRY_URL }}/${{ vars.ECR_REPOSITORY }}
+          ecr_image_tag: ${{ needs.build.outputs.image_tag }}
+          kube_cert:        ${{ secrets.KUBE_CERT }}
+          kube_token:       ${{ secrets.KUBE_TOKEN }}
+          kube_cluster:     ${{ secrets.KUBE_CLUSTER }}
+          kube_namespace:   ${{ secrets.KUBE_NAMESPACE }}
+          app_environment:  production
