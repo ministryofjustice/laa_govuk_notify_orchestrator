@@ -33,7 +33,7 @@ jobs:
   build:
     name: Build Docker Image
     runs-on: ubuntu-latest
-    needs: unit-tests
+    needs: [unit-tests, integration-tests, formatting-and-linting]
     outputs:
       image_tag: ${{ steps.branch-tag.outputs.tag }}
     permissions:
