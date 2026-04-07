@@ -13,13 +13,21 @@ jobs:
         - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         - uses: ./.github/actions/linting-and-formatting
 
-# ---------------------------------------------------------------- test ------
+# ------------------------------------------------------------ unit test ------
   unit-tests:
     name: "Unit tests"
     runs-on: ubuntu-latest
     steps:
         - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         - uses: ./.github/actions/unit-tests
+
+# ------------------------------------------------------------ unit test ------
+  integration-tests:
+    name: "Integration tests"
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        - uses: ./.github/actions/integration-tests
 
 # ---------------------------------------------------------- build (new) -----
   build:
