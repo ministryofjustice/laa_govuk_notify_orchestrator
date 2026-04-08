@@ -77,12 +77,13 @@ jobs:
             echo "tag=branch-${GITHUB_SHA}" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Build and push image with local action
-        uses: ./.github/actions/build-and-push
+      - name: Build and push image with caching
+        uses: ministryofjustice/laa-reusable-github-actions/.github/actions/build_and_push_with_cache@main
         with:
-          repo_full_uri:  ${{ secrets.ECR_REGISTRY_URL }}/${{ vars.ECR_REPOSITORY }}
-          dockerfile_path: Dockerfile
-          image_tag:      ${{ steps.branch-tag.outputs.tag }}
+         image_registry: ${{ secrets.ECR_REGISTRY_URL }}
+         image_repo: ${{ vars.ECR_REPOSITORY }}
+         dockerfile_path: Dockerfile
+         image_tag: ${{  steps.branch-tag.outputs.tag  }}
 
 # --------------------------------------------------------- development-production ---
   deploy-development:
