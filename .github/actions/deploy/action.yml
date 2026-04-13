@@ -39,7 +39,7 @@ runs:
 
     - name: Deploy using Helm
       shell: bash
-      run: . bin/deploy.sh ${{ inputs.app_environment }}
+      run: ./bin/deploy.sh ${{ inputs.app_environment }}
       env:
         REGISTRY_HOST: ${{ inputs.ecr_registry_url }}
         IMAGE_TAG: ${{ inputs.ecr_image_tag }}
