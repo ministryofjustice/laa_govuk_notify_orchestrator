@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
         - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
-        - uses: ministryofjustice/laa-reusable-github-actions/.github/actions/python-linting-and-formatting@main
+        - uses: ministryofjustice/laa-reusable-github-actions/.github/actions/python-linting-and-formatting@cb1ebcbca5efcd1e91b7ee1e27c73650c1bba9d8
 
 # ------------------------------------------------------------ unit test ------
   unit-tests:
@@ -47,7 +47,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
 
       - name:  Set up AWS credentials
-        uses: ministryofjustice/laa-reusable-github-actions/.github/actions/ecr-auth@main
+        uses: ministryofjustice/laa-reusable-github-actions/.github/actions/ecr-auth@cb1ebcbca5efcd1e91b7ee1e27c73650c1bba9d8
         with:
           ecr_region: ${{ vars.ECR_REGION }}
           ecr_role: ${{ secrets.ECR_ROLE_TO_ASSUME }}
