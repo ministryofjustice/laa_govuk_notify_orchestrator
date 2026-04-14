@@ -11,16 +11,13 @@ dynamic = ["dependencies", "optional-dependencies"]
 dependencies = { file = ["requirements/generated/requirements.txt"] }
 optional-dependencies = { file = ["requirements/generated/requirements-linting.txt"] }
 
-[tool.black]
+[tool.ruff]
+target-version = "py312"
 line-length = 119
-verbose = true
-include = '\.pyi?$'
-exclude = '''
-/(
-    \.git
-  | \.tx
-  | env
-  | scripts
-  | build
-)/
-'''
+exclude = [
+    ".git",
+    ".tx",
+    "env",
+    "scripts",
+    "build"
+]
