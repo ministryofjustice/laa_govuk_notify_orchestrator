@@ -40,6 +40,8 @@ jobs:
     needs: [unit-tests, integration-tests, formatting-and-linting]
     outputs:
       image_tag: ${{ steps.branch-tag.outputs.tag }}
+      image_uri: ${{ steps.image-uri.outputs.image_uri }}
+
     permissions:
       id-token: write
       contents: read
@@ -77,6 +79,11 @@ jobs:
             echo "tag=branch-${GITHUB_SHA}" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Set image URI
+        id: image-uri
+        run: |
+          echo "image_uri=${{ secrets.ECR_REGISTRY_URL }}/${{ vars.ECR_REPOSITORY }}:${{ steps.branch-tag.outputs.tag }}" >> "$GITHUB_OUTPUT"
+
       - name: Build and push image with caching
         uses: ministryofjustice/laa-reusable-github-actions/.github/actions/build_and_push_with_cache@main
         with:
@@ -84,6 +91,26 @@ jobs:
          image_repo: ${{ vars.ECR_REPOSITORY }}
          dockerfile_path: Dockerfile
          image_tag: ${{  steps.branch-tag.outputs.tag  }}
+
+  snyk-image-scan:
+    name: Snyk Image Scan
+    needs: build
+    if: always() #allowed to be passed for the error
+    uses: ministryofjustice/laa-reusable-github-actions/.github/workflows/sast.yml@a652d1076b05dd80d3ab619d263aac6ce526d70b
+    permissions:
+      id-token: write
+      contents: read
+      security-events: write
+      actions: read
+    with:
+      image_uri: ${{ needs.build.outputs.image_uri }}
+      dockerfile_path: ./Dockerfile
+    secrets:
+      SNYK_CLIENT_ID: ${{ secrets.SNYK_CLIENT_ID }}
+      SNYK_CLIENT_SECRET: ${{ secrets.SNYK_CLIENT_SECRET }}
+      ECR_ROLE_TO_ASSUME: ${{ secrets.ECR_REGISTRY_URL }}
+
+
 
 # --------------------------------------------------------- development-production ---
   deploy-development:
