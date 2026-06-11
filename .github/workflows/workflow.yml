@@ -95,21 +95,16 @@ jobs:
   snyk-image-scan:
     name: Snyk Image Scan
     needs: build
-    if: always() #allowed to be passed for the error
-    uses: ministryofjustice/laa-reusable-github-actions/.github/workflows/sast.yml@a652d1076b05dd80d3ab619d263aac6ce526d70b
+    uses: ./.github/workflows/snyk.yml
+
     permissions:
       id-token: write
       contents: read
       security-events: write
       actions: read
+
     with:
       image_uri: ${{ needs.build.outputs.image_uri }}
-      dockerfile_path: ./Dockerfile
-    secrets:
-      SNYK_CLIENT_ID: ${{ secrets.SNYK_CLIENT_ID }}
-      SNYK_CLIENT_SECRET: ${{ secrets.SNYK_CLIENT_SECRET }}
-      ECR_ROLE_TO_ASSUME: ${{ secrets.ECR_REGISTRY_URL }}
-
 
 
 # --------------------------------------------------------- development-production ---

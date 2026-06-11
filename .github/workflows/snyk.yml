@@ -1,0 +1,45 @@
+name: Snyk Docker Image Scan
+
+on:
+  workflow_call:
+    inputs:
+      image_uri:
+        required: true
+        type: string
+      minimum_threshold:
+        required: false
+        type: string
+        default: high
+
+jobs:
+  snyk-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install Snyk CLI
+        uses: snyk/actions/setup@9adf32b1121593767fc3c057af55b55db032dc04 # v1.0.0
+
+      - name: Obtain short-lived Snyk token
+        id: snyk-auth
+        uses: ministryofjustice/laa-reusable-github-actions/.github/actions/snyk-auth@6db001458db30ae747d9eb8eb25707ce52b359bc
+        with:
+          client_id: ${{ secrets.SNYK_CLIENT_ID }}
+          client_secret: ${{ secrets.SNYK_CLIENT_SECRET }}
+
+      - name: Scan container image
+        env:
+          SNYK_OAUTH_TOKEN: ${{ steps.snyk-auth.outputs.token }}
+          IMAGE_URI: ${{ inputs.image_uri }}
+          MINIMUM_THRESHOLD: ${{ inputs.minimum_threshold }}
+        run: |
+          mkdir -p sarif
+
+          snyk container test "$IMAGE_URI" \
+            --severity-threshold=$MINIMUM_THRESHOLD \
+            --sarif-file-output=sarif/snyk.sarif
+
+      - name: Upload SARIF results
+        if: always()
+        uses: github/codeql-action/upload-sarif@7211b7c8077ea37d8641b6271f6a365a22a5fbfa #4.36.2 
+        with:
+          sarif_file: sarif/snyk.sarif
