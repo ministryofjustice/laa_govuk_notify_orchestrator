@@ -36,54 +36,35 @@ jobs:
 # ---------------------------------------------------------- build (new) -----
   build:
     name: Build Docker Image
-    runs-on: ubuntu-latest
-    needs: [unit-tests, integration-tests, formatting-and-linting]
-    outputs:
-      image_tag: ${{ steps.branch-tag.outputs.tag }}
+    uses: ./.github/workflows/build.yml
+    permissions:
+      contents: read
+      id-token: write
+    with:
+      ECR_REGION: ${{vars.ECR_REGION}}
+      ECR_REPOSITORY: ${{vars.ECR_REPOSITORY}}
+    secrets:
+      ECR_ROLE_TO_ASSUME: ${{ secrets.ECR_ROLE_TO_ASSUME }}
+
+
+  snyk-image-scan:
+    name: Snyk Image Scan
+    needs: build
+    if: always() #allowed to be passed for the error
+    uses: ministryofjustice/laa-reusable-github-actions/.github/workflows/sast.yml@a652d1076b05dd80d3ab619d263aac6ce526d70b
     permissions:
       id-token: write
       contents: read
+      security-events: write
+      actions: read
+    with:
+      image_uri: ${{ needs.build.outputs.image_uri }}
+      dockerfile_path: ./Dockerfile
+    secrets:
+      SNYK_CLIENT_ID: ${{ secrets.SNYK_CLIENT_ID }}
+      SNYK_CLIENT_SECRET: ${{ secrets.SNYK_CLIENT_SECRET }}
+      ECR_ROLE_TO_ASSUME: ${{ secrets.ECR_ROLE_TO_ASSUME }}
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
-
-      - name:  Set up AWS credentials
-        uses: ministryofjustice/laa-reusable-github-actions/.github/actions/ecr-auth@cb1ebcbca5efcd1e91b7ee1e27c73650c1bba9d8
-        with:
-          ecr_region: ${{ vars.ECR_REGION }}
-          ecr_role: ${{ secrets.ECR_ROLE_TO_ASSUME }}
-          role-session-name: laa-govuk-notify-orchestrator
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435
-        with:
-          install: true
-
-      - name: Cache Docker layers
-        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
-
-      - name: Set image tag
-        id: branch-tag
-        run: |
-          if [ "${GITHUB_REF_NAME}" = "main" ]; then
-            echo "tag=main-${GITHUB_SHA}" >> "$GITHUB_OUTPUT"
-          else
-            echo "tag=branch-${GITHUB_SHA}" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Build and push image with caching
-        uses: ministryofjustice/laa-reusable-github-actions/.github/actions/build_and_push_with_cache@main
-        with:
-         image_registry: ${{ secrets.ECR_REGISTRY_URL }}
-         image_repo: ${{ vars.ECR_REPOSITORY }}
-         dockerfile_path: Dockerfile
-         image_tag: ${{  steps.branch-tag.outputs.tag  }}
 
 # --------------------------------------------------------- development-production ---
   deploy-development:
