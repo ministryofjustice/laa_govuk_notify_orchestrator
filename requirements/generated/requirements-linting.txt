@@ -4,7 +4,7 @@
 #
 #    pip-compile --output-file=requirements/generated/requirements-linting.txt requirements/source/requirements-linting.in
 #
-black==24.8.0
+black==26.3.1
     # via -r requirements/source/requirements-linting.in
 click==8.1.7
     # via black
@@ -16,7 +16,7 @@ mypy-extensions==1.0.0
     # via black
 packaging==23.2
     # via black
-pathspec==0.11.2
+pathspec==1.1.1
     # via black
 platformdirs==3.11.0
     # via black
@@ -24,3 +24,5 @@ pycodestyle==2.11.0
     # via flake8
 pyflakes==3.1.0
     # via flake8
+pytokens==0.4.1
+    # via black
