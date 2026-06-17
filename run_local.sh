@@ -7,5 +7,5 @@ export COMPOSE_PROFILES=RabbitMQ
 
 echo "running environment $ENVIRONMENT"
 
-docker-compose down --remove-orphans
-docker-compose up --build
+docker compose down --remove-orphans
+docker compose up --build
