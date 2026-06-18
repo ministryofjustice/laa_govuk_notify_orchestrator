@@ -33,11 +33,12 @@ class TestSendEmail:
     def test_400_response(self, log_error_message, retry_email, send_email):
         """Do not retry email after receiving 400 error from notification API"""
 
+        def mock_send_email(*args, **kwargs):
+            raise HTTPError(response=MagicMock(status_code=400))
+
         email_request = EmailRequest.model_validate(TestData.valid_email_request)
         email = Email(email_request)
-        http_error = HTTPError()
-        http_error.error = MagicMock(status_code=400)
-        send_email.side_effect = http_error
+        send_email.side_effect = mock_send_email
         email_task(email)
 
         retry_email.assert_not_called()

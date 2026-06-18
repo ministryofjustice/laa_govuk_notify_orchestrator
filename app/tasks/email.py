@@ -128,7 +128,7 @@ def email_task(self, email: Email):
     except Exception as exception:
         if EmailTask.is_rate_limit_exception(exception):
             self.rate_limit_exceeded = True
-        if isinstance(exception, HTTPError) and exception.error.status_code == 400:
+        if isinstance(exception, HTTPError) and exception.status_code == 400:
             # Definition of 400 status code https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html:
             #  The request could not be understood by the server due to malformed syntax.
             #  The client SHOULD NOT repeat the request without modifications.
