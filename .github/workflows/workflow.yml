@@ -51,7 +51,7 @@ jobs:
     name: Snyk Image Scan
     needs: build
     if: always() #allowed to be passed for the error
-    uses: ministryofjustice/laa-reusable-github-actions/.github/workflows/sast.yml@a652d1076b05dd80d3ab619d263aac6ce526d70b
+    uses: ministryofjustice/laa-reusable-github-actions/.github/workflows/sast.yml@7d89b89b640b15c48f1896c577f964819a6acc6c
     permissions:
       id-token: write
       contents: read
