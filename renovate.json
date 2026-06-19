@@ -4,8 +4,8 @@
   ],
   "pip-compile": {
     "managerFilePatterns": [
-      "/^requirements\\/generated\\/requirements\\.txt$/",
-      "/^requirements\\/generated\\/requirements-linting\\.txt$/"
+      "/^requirements\\/source\\/requirements\\.in$/",
+      "/^requirements\\/source\\/requirements-linting\\.in$/"
     ]
   },
   "pip_requirements": {
