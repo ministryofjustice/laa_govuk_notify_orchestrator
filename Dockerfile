@@ -1,15 +1,12 @@
-FROM python:3.12.6-alpine3.20
+FROM python:3.12-alpine3.21
 
-ENV CURL_VERSION=7.86.0
 ENV PYCURL_SSL_LIBRARY=openssl
-ENV SSL_VERSION=3.0.7
 
 RUN apk add --no-cache --virtual .build-dependencies build-base curl-dev \
-    && pip install pycurl
+    && pip install --no-cache-dir pycurl \
+    && apk del .build-dependencies
 
-RUN apk add tzdata \ 
-            libcurl \
-            bash
+RUN apk add --no-cache tzdata libcurl bash
 
 RUN adduser -D app && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
