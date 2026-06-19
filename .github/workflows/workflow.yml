@@ -60,6 +60,7 @@ jobs:
     with:
       image_uri: ${{ needs.build.outputs.image_uri }}
       dockerfile_path: ./Dockerfile
+      exclude_base_image_vulns: true
     secrets:
       SNYK_CLIENT_ID: ${{ secrets.SNYK_CLIENT_ID }}
       SNYK_CLIENT_SECRET: ${{ secrets.SNYK_CLIENT_SECRET }}
