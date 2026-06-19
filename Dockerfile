@@ -1,15 +1,8 @@
 FROM python:3.12.6-alpine3.20
 
-ENV CURL_VERSION=7.86.0
 ENV PYCURL_SSL_LIBRARY=openssl
-ENV SSL_VERSION=3.0.7
 
-RUN apk add --no-cache --virtual .build-dependencies build-base curl-dev \
-    && pip install pycurl
-
-RUN apk add tzdata \ 
-            libcurl \
-            bash
+RUN apk add --no-cache tzdata libcurl bash
 
 RUN adduser -D app && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime
@@ -18,7 +11,9 @@ WORKDIR /notify_orchestrator
 
 COPY ./requirements/generated/requirements.txt /notify_orchestrator/requirements.txt
 
-RUN pip install --no-cache-dir --upgrade -r /notify_orchestrator/requirements.txt
+RUN apk add --no-cache --virtual .build-dependencies build-base curl-dev \
+    && pip install --no-cache-dir --upgrade -r /notify_orchestrator/requirements.txt \
+    && apk del .build-dependencies
 
 COPY ./app /notify_orchestrator/app
 
