@@ -1,10 +1,6 @@
-FROM python:3.12-alpine3.21
+FROM python:3.12.6-alpine3.20
 
 ENV PYCURL_SSL_LIBRARY=openssl
-
-RUN apk add --no-cache --virtual .build-dependencies build-base curl-dev \
-    && pip install --no-cache-dir pycurl \
-    && apk del .build-dependencies
 
 RUN apk add --no-cache tzdata libcurl bash
 
@@ -15,7 +11,9 @@ WORKDIR /notify_orchestrator
 
 COPY ./requirements/generated/requirements.txt /notify_orchestrator/requirements.txt
 
-RUN pip install --no-cache-dir --upgrade -r /notify_orchestrator/requirements.txt
+RUN apk add --no-cache --virtual .build-dependencies build-base curl-dev \
+    && pip install --no-cache-dir --upgrade -r /notify_orchestrator/requirements.txt \
+    && apk del .build-dependencies
 
 COPY ./app /notify_orchestrator/app
 
