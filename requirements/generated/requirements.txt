@@ -121,7 +121,7 @@ pydantic-core==2.41.5
     # via pydantic
 pygments==2.20.0
     # via pytest
-pyjwt==2.13.0
+pyjwt==2.15.0
     # via
     #   -r requirements/source/requirements.in
     #   notifications-python-client
