@@ -64,7 +64,7 @@ fastapi==0.137.2
     # via
     #   -r requirements/source/requirements.in
     #   sentry-sdk
-filelock==3.20.3
+filelock==4.2.1
     # via virtualenv
 freezegun==1.5.1
     # via -r requirements/source/requirements.in
