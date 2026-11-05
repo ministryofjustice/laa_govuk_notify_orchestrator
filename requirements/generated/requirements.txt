@@ -52,7 +52,7 @@ click-repl==0.3.0
     # via celery
 distlib==0.4.0
     # via virtualenv
-dnspython==2.8.0
+dnspython==2.9.0
     # via
     #   -r requirements/source/requirements.in
     #   email-validator
